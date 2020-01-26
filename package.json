@@ -1,0 +1,11 @@
+{
+  "name": "let-meet",
+  "version": "1.0.0",
+  "description": "An mobile app allow client to join or create event",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "VNGT",
+  "license": "ISC"
+}
