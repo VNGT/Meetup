@@ -62,6 +62,15 @@
         * [React-native troubleshoot if not able to run](https://facebook.github.io/react-native/docs/troubleshooting#content)
 
 ---
+## Style Enforce/ESLINT ⭐️
+* To enable eslint view (*to detect error or warning*) in your Visual Studio Code
+    1. Install a plugin call **ESLint**
+    2. Command + Shift + P and then `ESLint: Enable ESLint`
+    3. On your VScode panel, open Problems tab to view error or warning of the file
+* ESlint configuration at `.eslintrc.json` file in the root directory
+* More over information of react native eslint check at [ReactNativeCommunity](https://github.com/facebook/react-native/blob/master/packages/eslint-config-react-native-community/index.js)
+
+---
 ## Contributors 👥
 + 1️⃣ [Thinh Nguyen](https://github.com/thinhnguyennt7)
 + 2️⃣ [Tuan Nguyen](https://github.com/atuannguyen1101)
