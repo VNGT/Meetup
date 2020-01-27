@@ -46,6 +46,22 @@
 	```
 
 ---
+## Frontend 🖥
+* For development, change your directory to `client-side`
+    * *Make sure that you have react native and other support libraries to able to run this project. You can find everything at [React-Native](https://facebook.github.io/react-native/docs/getting-started)*
+    * *After you got everything installed*
+        ```
+        npm install
+        ```
+    * *To run the project on your local machine*
+        * First try to run `npx react-native run-ios --simulator "iPhone 11 Pro Max"` on the command line
+        * If not working then try:
+            * Open **Xcode** and go to the folder **/client-side/Mobile/ios/** and then import file **Mobile.xcworkspace**
+            * Then run the project by using the start icon.
+    * **Troubleshooting**
+        * [React-native troubleshoot if not able to run](https://facebook.github.io/react-native/docs/troubleshooting#content)
+
+---
 ## Contributors 👥
 + 1️⃣ [Thinh Nguyen](https://github.com/thinhnguyennt7)
 + 2️⃣ [Tuan Nguyen](https://github.com/atuannguyen1101)
