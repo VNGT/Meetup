@@ -1,0 +1,26 @@
+org: tnntech
+app: let-meet
+
+service: server-side
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  versionFunctions: false
+
+functions:
+  test:
+    handler: src/controllers/test.controller.test
+    events:
+      - http:
+          path: v1/test
+          method: get
+  account:
+    handler: src/controllers/account.controller.getAccount
+    events:
+      - http:
+          path: v1/account
+          method: get
+
+plugins:
+  - serverless-offline

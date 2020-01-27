@@ -1,0 +1,19 @@
+{
+  "name": "server-side",
+  "version": "1.0.0",
+  "description": "Serverless backend",
+  "scripts": {
+    "deploy-dev": "serverless deploy --stage dev",
+    "deploy-prod": "serverless deploy --stage prod",
+    "deploy-both": "serverless deploy --stage dev && serverless deploy --stage prod",
+    "test-deploy": "serverless invoke -f",
+    "local:dev": "nodemon --exec serverless offline start"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-offline": "^5.12.1"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
