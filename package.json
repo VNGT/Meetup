@@ -17,11 +17,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "git pull origin master && lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "git pull origin master"
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
+    "client-side/src/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "eslint src/*.js --fix-dry-run"
+    ],
+    "server-side/src/*.{js,jsx,ts,tsx}": [
       "npx prettier --write",
       "eslint src/*.js --fix-dry-run"
     ]
