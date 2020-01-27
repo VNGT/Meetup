@@ -10,7 +10,7 @@
 2. Insert these lines into *.env*
     ```
     AWS_KEY=AKIAI7IF3K36J4JSUNKA
-    AWS_SECRETKEY=8/sGDYNhd5z4m3E2Nl0TM9NGLXOI0vPXs6AyqAVp
+    AWS_SECRETKEY= *CONTACT ME TO GET SECRET KEY*
     ```
 3. On your command line run `bash installation.sh`
 ---
