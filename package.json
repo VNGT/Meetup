@@ -4,7 +4,7 @@
   "description": "An mobile app allow client to join or create event",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:server": "eslint server-side/src/*.js"
   },
   "author": "VNGT",
   "license": "ISC",
@@ -22,13 +22,10 @@
     }
   },
   "lint-staged": {
-    "client-side/src/*.{js,jsx,ts,tsx}": [
+    "src/*.{js,jsx,ts,tsx}": [
       "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
-    ],
-    "server-side/src/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
+      "eslint client-side/src/*.js --fix-dry-run",
+      "eslint server-side/src/*.js --fix-dry-run"
     ]
   },
   "dependencies": {
