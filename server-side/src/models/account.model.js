@@ -1,11 +1,12 @@
 class Account {
-	constructor(phone, email, name, dob, major) {
+	constructor(phone, password, name, dob, major, profile) {
 		this.name = name;
 		this.username = name.toLowerCase().replace(/\s/g,'');
 		this.dob = dob;
 		this.phone = phone;
-		this.email = email;
+		this.password = password;
 		this.major = major;
+		this.profile = (typeof profile === undefined) ? 'None' : profile;
 	}
 }
 

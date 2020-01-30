@@ -1,26 +1,135 @@
 org: tnntech
 app: let-meet
-
 service: server-side
 
 provider:
   name: aws
   runtime: nodejs12.x
   versionFunctions: false
+  environment:
+    DB_HOST: 'vngtcluster.cluster-cryethfnulax.us-east-2.rds.amazonaws.com'
+    DB_PORT: '3306'
+    DB_USERNAME: 'vngteam'
+    DB_PASSWORD: '12th3456'
+    DB_NAME: 'vngt_db'
+    DB_DIALECT: 'mysql'
 
 functions:
+  # Test Function
   test:
     handler: src/controllers/test.controller.test
     events:
       - http:
           path: v1/test
           method: get
-  account:
-    handler: src/controllers/account.controller.getAccount
+          cors: true
+
+  # Account Function
+  get_account_by_id:
+    handler: src/controllers/account.controller.getAccountById
+    events:
+      - http:
+          path: v1/account/{acctId}
+          method: get
+          cors: true
+  delete_account_by_id:
+    handler: src/controllers/account.controller.deleteAccountById
+    events:
+      - http:
+          path: v1/account/{acctId}
+          method: delete
+          cors: true
+  update_account_by_id:
+    handler: src/controllers/account.controller.updateAccountById
+    events:
+      - http:
+          path: v1/account/{acctId}
+          method: put
+          cors: true
+  create_account:
+    handler: src/controllers/account.controller.createAccount
     events:
       - http:
           path: v1/account
+          method: post
+          cors: true
+
+  # Even Function
+  get_event_by_id:
+    handler: src/controllers/event.controller.getEventById
+    events:
+      - http:
+          path: v1/event/{eventId}
           method: get
+          cors: true
+  delete_event_by_id:
+    handler: src/controllers/event.controller.deleteEventById
+    events:
+      - http:
+          path: v1/event/{eventId}
+          method: delete
+          cors: true
+  update_event_by_id:
+    handler: src/controllers/event.controller.updateEventById
+    events:
+      - http:
+          path: v1/event/{eventId}
+          method: put
+          cors: true
+  get_event:
+    handler: src/controllers/event.controller.getEvent
+    events:
+      - http:
+          path: v1/event
+          method: get
+          cors: true
+  create_event:
+    handler: src/controllers/event.controller.createEvent
+    events:
+      - http:
+          path: v1/event
+          method: post
+          cors: true
+
+  # Group Function
+  create_group:
+    handler: src/controllers/group.controller.createGroup
+    events:
+      - http:
+          path: v1/group
+          method: post
+          cors: true
+  get_group_by_id:
+    handler: src/controllers/group.controller.getGroupById
+    events:
+      - http:
+          path: v1/group/{groupId}
+          method: get
+          cors: true
+  get_all_group:
+    handler: src/controllers/group.controller.getAllGroup
+    events:
+      - http:
+          path: v1/group
+          method: get
+          cors: true
+  delete_group_by_id:
+    handler: src/controllers/group.controller.deleteGroupById
+    events:
+      - http:
+          path: v1/group/{groupId}
+          method: delete
+          cors: true
+  update_group_by_id:
+    handler: src/controllers/group.controller.updateGroupById
+    events:
+      - http:
+          path: v1/group/{groupId}
+          method: put
+          cors: true
+
+  # Search Function
 
 plugins:
   - serverless-offline
+  - serverless-sequelize-migrations
