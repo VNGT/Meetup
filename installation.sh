@@ -19,6 +19,6 @@ chmod 755 /usr/local/lib/pkgconfig
 echo 'Run pod instal \n'
 brew install watchman
 sudo gem install cocoapods
-cd client-side && cd ios/ && pod install && cd ../
+cd client-side && npm install && cd ios/ && pod install && cd ../
 
 echo 'Alright!!! YOU CAN SPIN UP THE APP NOW \n'
