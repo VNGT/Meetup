@@ -32,6 +32,18 @@ export default StyleSheet.create({
 		height: 40,
 		width: Dimensions.width / 2,
 		marginLeft: (Dimensions.width - Dimensions.width / 2) / 2
-		
+	},
+
+	buttonDisabled: {
+		marginTop: 30,
+		backgroundColor: '#dadad8',
+		borderRadius: 40,
+		height: 40,
+		width: Dimensions.width / 2,
+		marginLeft: (Dimensions.width - Dimensions.width / 2) / 2
+	},
+
+	helperText: {
+		marginLeft: ((Dimensions.width - (Dimensions.width / 1.3)) / 2) - 10
 	}
 });

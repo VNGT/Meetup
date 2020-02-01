@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TextInput, SafeAreaView, StatusBar, Button, Alert, TouchableOpacity } from 'react-native';
 import glStyles from '../../styles/global.style';
 import registerStyles from '../../styles/register.style';
+import { HelperText } from 'react-native-paper';
 
 export default class Register extends Component {
 	constructor(props) {
@@ -13,9 +14,13 @@ export default class Register extends Component {
 			password: '',
 			confirmPassword: ''
 		};
+		
+		this.registerButtonHandler = this.registerButtonHandler.bind(this);
 	}
 
 	inputView = () => {
+		const { password, confirmPassword } = this.state;
+
 		return (
 			<ScrollView>
 				<Text style={registerStyles.text}>Phone Number</Text>
@@ -46,6 +51,13 @@ export default class Register extends Component {
 					onChangeText={(password) => this.setState({password})}
 					placeholder={'Password'}
 				/>
+				<HelperText
+					style={registerStyles.helperText}
+					type='error'
+					visible={password.length < 6}
+				>
+					Password must have at least 6 characters!
+				</HelperText>
 
 				<Text style={registerStyles.text}>Confirm Password</Text>
 				<TextInput
@@ -54,6 +66,13 @@ export default class Register extends Component {
 					onChangeText={(confirmPassword) => this.setState({confirmPassword})}
 					placeholder={'Confirm Password'}
 				/>
+				<HelperText
+					style={registerStyles.helperText}
+					type='error'
+					visible={password != confirmPassword}
+				>
+					Password does not match!
+				</HelperText>
 			</ScrollView>
 		);
 	};
@@ -67,12 +86,15 @@ export default class Register extends Component {
 	}
 	
 	registerButton = () => {
-		// check if all field are wypelnione 
+		const { password, confirmPassword, phoneNumber, name, major } = this.state;
+		const check = password.trim() !== '' && confirmPassword.trim() !== '' && phoneNumber.trim() !== '' && name.trim() !== '' && major.trim() !== '';
+
 		return (
 			<View>
 				<TouchableOpacity
-					style={registerStyles.button}>
+					style={check ? registerStyles.button : registerStyles.buttonDisabled}>
 					<Button
+						disabled={!(check)}
 						title='Register'
 						color='white'
 						onPress={this.registerButtonHandler}
@@ -82,7 +104,7 @@ export default class Register extends Component {
 		);
 	}
 
-	registerButtonHandler = () => {
+	registerButtonHandler() {
 		const { password, confirmPassword, phoneNumber, name } = this.state;
 		if (phoneNumber.length != 10) {
 			Alert.alert('Please provide a valid phone number');
