@@ -7,8 +7,7 @@ export default class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			phoneNumber: '',
-			email: '',
+			phoneNumber: props.phoneNumber,
 			name: '',
 			major: '',
 			password: '',
@@ -24,13 +23,6 @@ export default class Register extends Component {
 					style={registerStyles.textInput}
 					onChangeText={(phoneNumber) => this.setState({phoneNumber})}
 					placeholder={'Phone number'}
-				/>
-
-				<Text style={registerStyles.text}>Email</Text>
-				<TextInput
-					style={registerStyles.textInput}
-					onChangeText={(email) => this.setState({email})}
-					placeholder={'Password'}
 				/>
 
 				<Text style={registerStyles.text}>Full Name</Text>
@@ -75,6 +67,7 @@ export default class Register extends Component {
 	}
 	
 	registerButton = () => {
+		// check if all field are wypelnione 
 		return (
 			<View>
 				<TouchableOpacity
@@ -90,8 +83,12 @@ export default class Register extends Component {
 	}
 
 	registerButtonHandler = () => {
-		const { password, confirmPassword } = this.state;
-		if (password.length < 6) {
+		const { password, confirmPassword, phoneNumber, name } = this.state;
+		if (phoneNumber.length != 10) {
+			Alert.alert('Please provide a valid phone number');
+		} else if (name.length == 0) {
+			Alert.alert('Please provide name');
+		} else if (password.length < 6) {
 			Alert.alert('Password must have at least 6 characters');
 		} else if (password !== confirmPassword) {
 			Alert.alert('Password and Confirm Password do not match');
@@ -114,3 +111,7 @@ export default class Register extends Component {
 		);
 	}
 }
+
+Register.defaultProps = {
+	phoneNumber: ''
+};
