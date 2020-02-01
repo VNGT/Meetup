@@ -18,7 +18,7 @@ export default class Register extends Component {
 
 	inputView = () => {
 		return (
-			<View>
+			<ScrollView>
 				<Text style={registerStyles.text}>Phone Number</Text>
 				<TextInput
 					style={registerStyles.textInput}
@@ -62,7 +62,7 @@ export default class Register extends Component {
 					onChangeText={(confirmPassword) => this.setState({confirmPassword})}
 					placeholder={'Confirm Password'}
 				/>
-			</View>
+			</ScrollView>
 		);
 	};
 
