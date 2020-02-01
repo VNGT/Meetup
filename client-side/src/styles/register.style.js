@@ -26,7 +26,11 @@ export default StyleSheet.create({
 
 	button: {
 		marginTop: 40,
+		backgroundColor: 'black',
+		borderRadius: 40,
+		height: 40,
+		width: Dimensions.width / 2,
+		marginLeft: (Dimensions.width - Dimensions.width / 2) / 2
 		
-
 	}
 });

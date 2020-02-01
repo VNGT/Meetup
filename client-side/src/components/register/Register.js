@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TextInput, SafeAreaView, StatusBar, Button, Alert } from 'react-native';
+import { View, Text, ScrollView, TextInput, SafeAreaView, StatusBar, Button, Alert, TouchableOpacity } from 'react-native';
 import glStyles from '../../styles/global.style';
 import registerStyles from '../../styles/register.style';
 
@@ -77,11 +77,14 @@ export default class Register extends Component {
 	registerButton = () => {
 		return (
 			<View>
-				<Button
-					style={registerStyles.button}
-					title='Register'
-					onPress={() => Alert.alert('User registered')}
-				/>
+				<TouchableOpacity
+					style={registerStyles.button}>
+					<Button
+						title='Register'
+						color='white'
+						onPress={() => Alert.alert('User registered')}
+					/>
+				</TouchableOpacity>
 			</View>
 		);
 	}
