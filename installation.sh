@@ -8,7 +8,7 @@ npm install -g serverless
 echo 'Configing aws credentials \n'
 AWS_KEY=$(grep AWS_KEY .env | cut -d '=' -f2)
 AWS_SECRETKEY=$(grep AWS_SECRETKEY .env | cut -d '=' -f2)
-serverless config credentials --provider aws --key ${AWS_KEY[0]} --secret ${AWS_SECRETKEY[0]}
+serverless config credentials --provider aws --key ${AWS_KEY[0]} --secret ${AWS_SECRETKEY[0]} -o
 
 echo 'Installing AWS cli \n'
 xcode-select --install

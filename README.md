@@ -9,8 +9,8 @@
 1. Create a file name `.env` in the root folder
 2. Insert these lines into *.env*
     ```
-    AWS_KEY=AKIAI7IF3K36J4JSUNKA
-    AWS_SECRETKEY= *CONTACT ME TO GET SECRET KEY*
+    AWS_KEY=*CONTACT ME TO GET SECRET KEY*
+    AWS_SECRETKEY=*CONTACT ME TO GET SECRET KEY*
     ```
 3. On your command line run `bash installation.sh`
 ---
@@ -37,6 +37,7 @@
     PROD: https://op5babjbwh.execute-api.us-east-1.amazonaws.com/prod
 	GET  /v1/test  | Test the AWS endpoint
 	GET  /v1/account  | Get all client accounts from database
+    ... To Be Updated
 	```
 * Other dashboards console
 	```
