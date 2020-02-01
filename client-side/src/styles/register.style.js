@@ -9,13 +9,14 @@ export default StyleSheet.create({
 	},
 
 	textInput: {
-		marginTop: 10,
+		marginTop: 8,
 		marginLeft: (Dimensions.width - (Dimensions.width / 1.3)) / 2,
 		borderColor: 'gray',
 		height: 35,
 		width: Dimensions.width / 1.3,
 		borderWidth: 1,
-		textAlign: 'left'
+		textAlign: 'left',
+		borderRadius: 5
 	},
 	
 	title: {
@@ -25,7 +26,7 @@ export default StyleSheet.create({
 	},
 
 	button: {
-		marginTop: 40,
+		marginTop: 30,
 		backgroundColor: 'black',
 		borderRadius: 40,
 		height: 40,

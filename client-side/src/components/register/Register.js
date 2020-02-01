@@ -7,44 +7,44 @@ export default class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			phoneNumber: 'xxxxxxxxxx',
-			email: 'email@gmail.com',
-			name: 'John Doe',
-			major: 'Major',
-			password: 'Password',
-			confirmPassword: 'Confirm Password'
+			phoneNumber: '',
+			email: '',
+			name: '',
+			major: '',
+			password: '',
+			confirmPassword: ''
 		};
 	}
 
 	inputView = () => {
 		return (
-			<ScrollView>
+			<View>
 				<Text style={registerStyles.text}>Phone Number</Text>
 				<TextInput
 					style={registerStyles.textInput}
 					onChangeText={(phoneNumber) => this.setState({phoneNumber})}
-					placeholder={this.state.phoneNumber}
+					placeholder={'Phone number'}
 				/>
 
 				<Text style={registerStyles.text}>Email</Text>
 				<TextInput
 					style={registerStyles.textInput}
 					onChangeText={(email) => this.setState({email})}
-					placeholder={this.state.email}
+					placeholder={'Password'}
 				/>
 
 				<Text style={registerStyles.text}>Full Name</Text>
 				<TextInput
 					style={registerStyles.textInput}
 					onChangeText={(name) => this.setState({name})}
-					placeholder={this.state.name}
+					placeholder={'Name'}
 				/>
 
 				<Text style={registerStyles.text}>Major</Text>
 				<TextInput
 					style={registerStyles.textInput}
 					onChangeText={(major) => this.setState({major})}
-					placeholder={this.state.major}
+					placeholder={'Major'}
 				/>
 
 				<Text style={registerStyles.text}>Password</Text>
@@ -52,7 +52,7 @@ export default class Register extends Component {
 					secureTextEntry={true}
 					style={registerStyles.textInput}
 					onChangeText={(password) => this.setState({password})}
-					placeholder={this.state.password}
+					placeholder={'Password'}
 				/>
 
 				<Text style={registerStyles.text}>Confirm Password</Text>
@@ -60,9 +60,9 @@ export default class Register extends Component {
 					secureTextEntry={true}
 					style={registerStyles.textInput}
 					onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-					placeholder={this.state.confirmPassword}
+					placeholder={'Confirm Password'}
 				/>
-			</ScrollView>
+			</View>
 		);
 	};
 
@@ -82,11 +82,22 @@ export default class Register extends Component {
 					<Button
 						title='Register'
 						color='white'
-						onPress={() => Alert.alert('User registered')}
+						onPress={this.registerButtonHandler}
 					/>
 				</TouchableOpacity>
 			</View>
 		);
+	}
+
+	registerButtonHandler = () => {
+		const { password, confirmPassword } = this.state;
+		if (password.length < 6) {
+			Alert.alert('Password must have at least 6 characters');
+		} else if (password !== confirmPassword) {
+			Alert.alert('Password and Confirm Password do not match');
+		} else {
+			// Call database
+		}
 	}
 
 	render() {
