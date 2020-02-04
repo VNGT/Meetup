@@ -1,0 +1,58 @@
+[
+	{
+		"id": "12Z3W",
+        "description": [
+            {
+                "title": "Hello World",
+                "subtitle": "Testing",
+                "introduction": "Test"
+            }
+        ],
+        "location": [
+            {
+                "address": "456 Some Other Street",
+                "city": "Bellevue",
+                "state": "WA",
+                "zip": 98004
+            }
+        ],
+        "time": [
+            {
+                "date": "02-02-2020",
+                "hour": "19:00"
+            }
+        ],
+        "members": [
+            {"1": "Thinh Nguyen"},
+            {"2": "Tuan Nguyen"}
+        ]
+	},
+	{
+		"id": "11Z3W",
+        "description": [
+            {
+                "title": "Hello World1",
+                "subtitle": "Testing",
+                "introduction": "Test"
+            }
+        ],
+        "location": [
+            {
+                "address": "456 Some Other Street",
+                "city": "Bellevue",
+                "state": "WA",
+                "zip": 98004
+            }
+        ],
+        "time": [
+            {
+                "date": "02-02-2020",
+                "hour": "19:00"
+            }
+        ],
+        "members": [
+            {"1": "Thinh Nguyen"},
+            {"2": "Tuan Nguyen"}
+        ]
+	}
+]

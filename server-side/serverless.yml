@@ -2,134 +2,147 @@ org: tnntech
 app: let-meet
 service: server-side
 
+custom:
+  # secrets: ${file(secrets.json)}
+  serverless-offline:
+    host: 0.0.0.0 # For docker container hosting
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      cors: true
+      inMemory: true
+      migrate: true
+      seed: true
+    seed:
+      dev:
+        sources:
+          - table: accounts
+            sources: [./src/seeders/accounts.data.json]
+          - table: events
+            sources: [./src/seeders/events.data.json]
+          - table: groups
+            sources: [./src/seeders/groups.data.json]
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+resources:
+  Resources:
+    accounts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: accounts
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    events:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: events
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    groups:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: groups
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
 provider:
   name: aws
   runtime: nodejs12.x
   versionFunctions: false
+  stage: dev
   environment:
-    DB_HOST: 'vngtcluster.cluster-cryethfnulax.us-east-2.rds.amazonaws.com'
-    DB_PORT: '3306'
-    DB_USERNAME: 'vngteam'
-    DB_PASSWORD: '12th3456'
-    DB_NAME: 'vngt_db'
-    DB_DIALECT: 'mysql'
 
 functions:
   # Test Function
   test:
     handler: src/controllers/test.controller.test
     events:
-      - http:
-          path: v1/test
-          method: get
-          cors: true
+      - http: get v1/test
 
   # Account Function
   get_account_by_id:
     handler: src/controllers/account.controller.getAccountById
     events:
-      - http:
-          path: v1/account/{acctId}
-          method: get
-          cors: true
+      - http: get v1/account/{acctId}
   delete_account_by_id:
     handler: src/controllers/account.controller.deleteAccountById
     events:
-      - http:
-          path: v1/account/{acctId}
-          method: delete
-          cors: true
+      - http: delete v1/account/{acctId}
   update_account_by_id:
     handler: src/controllers/account.controller.updateAccountById
     events:
-      - http:
-          path: v1/account/{acctId}
-          method: put
-          cors: true
+      - http: put v1/account/{acctId}
   create_account:
     handler: src/controllers/account.controller.createAccount
     events:
-      - http:
-          path: v1/account
-          method: post
-          cors: true
+      - http: post v1/account/{acctId}
 
-  # Even Function
+  # Event Function
   get_event_by_id:
     handler: src/controllers/event.controller.getEventById
     events:
-      - http:
-          path: v1/event/{eventId}
-          method: get
-          cors: true
+      - http: get v1/event/{acctId}
   delete_event_by_id:
     handler: src/controllers/event.controller.deleteEventById
     events:
-      - http:
-          path: v1/event/{eventId}
-          method: delete
-          cors: true
+      - http: delete v1/event/{acctId}
   update_event_by_id:
     handler: src/controllers/event.controller.updateEventById
     events:
-      - http:
-          path: v1/event/{eventId}
-          method: put
-          cors: true
+      - http: put v1/event/{acctId}
   get_event:
     handler: src/controllers/event.controller.getEvent
     events:
-      - http:
-          path: v1/event
-          method: get
-          cors: true
+      - http: get v1/event
   create_event:
     handler: src/controllers/event.controller.createEvent
     events:
-      - http:
-          path: v1/event
-          method: post
-          cors: true
+      - http: post v1/event
 
   # Group Function
   create_group:
     handler: src/controllers/group.controller.createGroup
     events:
-      - http:
-          path: v1/group
-          method: post
-          cors: true
+      - http: post v1/group
   get_group_by_id:
     handler: src/controllers/group.controller.getGroupById
     events:
-      - http:
-          path: v1/group/{groupId}
-          method: get
-          cors: true
+      - http: get v1/group/{groupId}
   get_all_group:
     handler: src/controllers/group.controller.getAllGroup
     events:
-      - http:
-          path: v1/group
-          method: get
-          cors: true
+      - http: get v1/group
   delete_group_by_id:
     handler: src/controllers/group.controller.deleteGroupById
     events:
-      - http:
-          path: v1/group/{groupId}
-          method: delete
-          cors: true
+      - http: delete v1/group/{groupId}
   update_group_by_id:
     handler: src/controllers/group.controller.updateGroupById
     events:
-      - http:
-          path: v1/group/{groupId}
-          method: put
-          cors: true
-
-  # Search Function
-
-plugins:
-  - serverless-offline
-  - serverless-sequelize-migrations
+      - http: put v1/group/{groupId}

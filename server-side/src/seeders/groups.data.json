@@ -1,0 +1,26 @@
+[
+    {
+		"id": "Azf1",
+		"name": "CS1331",
+		"category": "Computer Science",
+		"members": [
+            {"1": "Thinh Nguyen"},
+            {"2": "Tuan Nguyen"}
+        ],
+        "events": [
+            {"12Z3W": "Hello Word"}
+        ]
+	},
+	{
+		"id": "Azd1",
+		"name": "CS1332",
+		"category": "Computer Engineer",
+		"members": [
+            {"1": "Thinh Nguyen"},
+            {"2": "Tuan Nguyen"}
+        ],
+        "events": [
+            {"11Z3W": "Hello Word1"}
+        ]
+	}
+]
