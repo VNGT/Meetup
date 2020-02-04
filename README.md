@@ -7,16 +7,23 @@
 
 ### Pre-step 📣
 1. Create a file name `.env` in the root folder
-2. Insert these lines into *.env*
+2. Contact me to get secret key
+3. Insert these lines into *.env*
     ```
     AWS_KEY=*CONTACT ME TO GET SECRET KEY*
     AWS_SECRETKEY=*CONTACT ME TO GET SECRET KEY*
+    AWS_ENDPOINT=http://localhost:8000
+    AWS_REGION=localhost
+    ACCOUNTS_TABLE=accounts
+    EVENTS_TABLE=events
+    GROUPS_TABLE=groups
     ```
-3. On your command line run `bash installation.sh`
+4. On your command line run `bash pre-setup.sh`
 ---
 
 ### Serverless Backend 🐍
 * Change your directory to `server-side`
+* Make sure you install ***Docker + Docker cli*** on your local machine
 * Here are some basic commands for server-side
     * *To deploy backend services to* **DEV**
         * `npm run deploy-dev`
@@ -24,12 +31,12 @@
         * `npm run deploy-prod`
     * *Want to deploy both at the same time*
         * `npm run deploy-both`
-    * *To test basic function that declared from **serverless.yaml***
-        * `npm run test-deploy [function]`
-        * Sample: *npm run test-deploy account*
     * *To run local serverless on local machine*
         * `npm run local:dev`
         * *http://localhost:3000*
+    * *Local DynamoDB will host at*
+        * *http://localhost:8000*
+        * *Or you can make a query at http://localhost:8000/shell*
 
 * Here are some basic endpoints
 	```
@@ -45,6 +52,9 @@
 	AWS Console: https://534932075808.signin.aws.amazon.com/console
     Serverless Dashboard: https://dashboard.serverless.com/tenants/tnntech/applications/let-meet/overview/service
 	```
+* Other Tools To Success
+    * *To Visualize how DynamoDB look like on your local machine*
+        * Download [DynamoDB-GUI](https://github.com/Arattian/DynamoDb-GUI-Client/releases/download/3.3.1/DynamoDbGUI-mac-3.3.1.dmg)
 
 ---
 ## Frontend 🖥

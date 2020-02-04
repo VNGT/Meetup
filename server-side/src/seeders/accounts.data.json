@@ -1,0 +1,30 @@
+[
+	{
+		"id": "1",
+		"hostId": "12Z3W",
+		"name": "Thinh Nguyen",
+		"phone": "6788172100",
+		"password": "123456",
+		"major": "Computer Science",
+		"groups": [
+			{"Azf1": "CS1331"},
+			{"Azd1": "CS1332"}
+		],
+		"eventJoined": ["125", "126"],
+		"eventCreated": ["122", "123"]
+	},
+	{
+		"id": "2",
+		"hostId": "11Z3W",
+		"name": "Tuan Nguyen",
+		"phone": "xxxxxxxxxxx",
+		"password": "123456",
+		"major": "Computer Science",
+		"groups": [
+			{"Azf1": "CS1331"},
+			{"Azd1": "CS1332"}
+		],
+		"eventJoined": ["125", "126"],
+		"eventCreated": ["122", "123"]
+	}
+]

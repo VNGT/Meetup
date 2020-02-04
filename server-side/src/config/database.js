@@ -1,27 +1,14 @@
-const Sequelize = require('sequelize');
+const AWS = require('aws-sdk');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
-const sequelize = new Sequelize(
-	process.env.DB_NAME,
-	process.env.DB_USERNAME,
-	process.env.DB_PASSWORD,
-	{
-		host: process.env.DB_HOST,
-		dialect: process.env.DB_DIALECT,
-		port: process.env.DB_PORT,
-		logging: false,
-		pool: {
-			max: 5,
-			min: 0,
-			idle: 20000,
-			handleDisconnects: true
-		},
-		dialectOptions: {
-			requestTimeout: 100000
-		},
-		define: {
-			freezeTableName: true
-		}
-	}
-);
+const options = {
+	endpoint: process.env.AWS_ENDPOINT,
+	region: 'localhost',
+	accessKeyId: process.env.AWS_KEY,
+	secretAccessKey: process.env.AWS_SECRETKEY
+};
 
-module.exports = sequelize;
+const dynamo = new AWS.DynamoDB(options);
+const doclient = new AWS.DynamoDB.DocumentClient({ service: dynamo });
+module.exports = { dynamo, doclient };
