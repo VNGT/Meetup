@@ -4,8 +4,8 @@
 		"name": "CS1331",
 		"category": "Computer Science",
 		"members": [
-            {"1": "Thinh Nguyen"},
-            {"2": "Tuan Nguyen"}
+            {"122AZWE": "Thinh Nguyen"},
+            {"1112AZWE": "Tuan Nguyen"}
         ],
         "events": [
             {"12Z3W": "Hello Word"}
@@ -16,8 +16,8 @@
 		"name": "CS1332",
 		"category": "Computer Engineer",
 		"members": [
-            {"1": "Thinh Nguyen"},
-            {"2": "Tuan Nguyen"}
+            {"122AZWE": "Thinh Nguyen"},
+            {"1112AZWE": "Tuan Nguyen"}
         ],
         "events": [
             {"11Z3W": "Hello Word1"}

@@ -22,6 +22,7 @@
     "nodemon": "^2.0.2",
     "path": "^0.12.7",
     "serverless-dynamodb-local": "^0.2.39",
+    "shortid": "^2.2.15",
     "uuid": "^3.4.0",
     "webpack": "^4.41.5"
   }
