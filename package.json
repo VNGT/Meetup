@@ -21,7 +21,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint:server && npm run lint:client",
-      "pre-push": "git pull origin master"
+      "pre-push": ""
     }
   },
   "lint-staged": {

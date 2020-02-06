@@ -1,5 +1,4 @@
 const path = require('path');
-const uuid = require('uuid');
 const shortid = require('shortid');
 const Account = require('../models/account.model.js');
 const { doclient } = require('../config/database');
@@ -31,21 +30,26 @@ exports.deleteAccountById = (async (event) => {
 });
 
 exports.updateAccountById = (async (event) => {
-	const { pathParameters, body } = event;
-	const { acctId } = pathParameters;
-	const updatedObject = await accountReq.put(body, acctId);
-	if (!updatedObject) { return ok({message: `${acctId} updated`}); }
-	return error({message: 'Can not find ID'});
+	const { pathParameters, body } = event, { acctId } = pathParameters;
+	const rowEffected = await accountReq.put(JSON.parse(body), acctId);
+	if (rowEffected === undefined) {
+		return error({message: 'Can not find ID'});
+	} else if (rowEffected) {
+		return ok({message: `${acctId} updated`});
+	}
+	return error({message: 'Error occur while updating data'});
 });
 
 exports.createAccount = (async (event) => {
 	const { body } = event;
+	const acctId = JSON.parse(body).email.split('@')[0];
 	const extraParams = {
 		hostId: shortid.generate(),
-		id: uuid()
+		id: acctId
 	};
 	const object = Object.assign({}, extraParams, JSON.parse(body));
 	const newAccount = new Account(object);
-	await accountReq.post(newAccount, uuid());
-	return ok({message: 'New Account created'});
+	const addNewStatus = await accountReq.post(newAccount, acctId);
+	if (addNewStatus) { return ok({message: 'New Account created'}); }
+	return error({ message: 'User Email already exist' });
 });

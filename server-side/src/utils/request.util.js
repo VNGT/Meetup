@@ -18,18 +18,29 @@ class RequestCall {
 	}
 
 	async put(object, id) {
-		const params = this._createParamObject({ Item: object });
 		const foundID = await this.get(id);
-		if (!foundID || foundID === undefined) { return null; }
-		await this._documentClient.put(params).promise();
-		return object;
+		if (!foundID || foundID === undefined) { return undefined; }
+		const updateExpression = this._createUpdateExpression(object);
+		const params = this._createParamObject({
+			Key: {id},
+			Item: object,
+			UpdateExpression: updateExpression[0],
+			ExpressionAttributeValues: updateExpression[1]
+		});
+		// https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.03.html
+		await this._documentClient.update(params).promise();
+		return true;
 	}
 
 	async post(object, id) {
-		const params = this._createParamObject({ Key: id, Item: object, Expected: {	email: { Exists: false }} });
-		const response = await this._documentClient.put(params).promise();
-		console.log(response);
-		return object;
+		// Make sure no duplicate id
+		const found = await this.get(id);
+		if (!found || found === undefined) {
+			const params = this._createParamObject({ Item: object });
+			await this._documentClient.put(params).promise();
+			return true;
+		}
+		return false;
 	}
 
 	async delete(id) {
@@ -42,6 +53,19 @@ class RequestCall {
 
 	_createParamObject(additionalArgs = {}) {
 		return Object.assign({}, this._tableName, additionalArgs);
+	}
+
+	_createUpdateExpression(object) {
+		let updateExpression = 'set ', attributeObject = {};
+		for (var key in object) {
+			const currentVal = object[key];
+			if (typeof currentVal !== 'object') {
+				updateExpression += `${key} = :${key},`;
+				attributeObject[`:${key}`] = currentVal;
+			}
+		}
+		updateExpression = updateExpression.substring(0, updateExpression.length - 1);
+		return [updateExpression, attributeObject];
 	}
 }
 
