@@ -1,12 +1,15 @@
 class Account {
-	constructor(phone, password, name, dob, major, profile) {
-		this.name = name;
-		this.username = name.toLowerCase().replace(/\s/g,'');
-		this.dob = dob;
-		this.phone = phone;
-		this.password = password;
-		this.major = major;
-		this.profile = (typeof profile === undefined) ? 'None' : profile;
+	constructor(object) {
+		this.id = object.id;
+		this.hostId = object.hostId;
+		this.firstname = object.firstname;
+		this.lastname = object.lastname;
+		this.email = object.email;
+		this.password = object.password;
+		this.profile = (typeof object.profile === undefined) ? 'None' : object.profile;
+		this.groups = [];
+		this.eventJoined = [];
+		this.eventCreated = [];
 	}
 }
 

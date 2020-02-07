@@ -101,7 +101,7 @@ functions:
   create_account:
     handler: src/controllers/account.controller.createAccount
     events:
-      - http: post v1/account/{acctId}
+      - http: post v1/account/
 
   # Event Function
   get_event_by_id:
