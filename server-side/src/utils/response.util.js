@@ -6,8 +6,11 @@ exports.withStatusCode = (statusCode, formatter = null) => {
 	const hasFormatter = typeof formatter === 'function';
 	const format = hasFormatter ? formatter : _ => _;
 	return (data = null) => {
-		const response = { statusCode: statusCode };
-		if (data) { response.body = format(data); }
+		let response = { statusCode: statusCode };
+		if (data) {
+			(statusCode === 200) ? response.body = format({status: true, data: data})
+				: response.body = format({status: false, data: data});
+		}
 		return response;
 	};
 };
