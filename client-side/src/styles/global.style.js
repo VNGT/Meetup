@@ -1,15 +1,15 @@
+
 import { StyleSheet } from 'react-native';
 import Dimensions from '../services/Dimensions';
-import backButton from '../directives/backButton';
 
 export default StyleSheet.create({
 	topSafe: {
 		flex: 0,
-		backgroundColor: 'white',
+		backgroundColor: '#21CD99',
 	},
 	bottomSafe: {
 		flex: 1,
-		backgroundColor: 'white',
+		backgroundColor: '#C3C3C3',
 	},
 	mainView: {
 		flex: 1,
@@ -30,7 +30,8 @@ export default StyleSheet.create({
 	},
 	backButton: {
 		fontSize: 40,
-		marginLeft: 8,
+		marginTop: 10,
+		marginLeft: 15,
 		color: 'black',
 	},
 });

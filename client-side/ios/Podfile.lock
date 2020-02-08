@@ -182,7 +182,7 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-safe-area-context (0.6.2):
+  - react-native-safe-area-context (0.6.4):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -221,11 +221,11 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCMaskedView (0.1.6):
     - React
-  - RNGestureHandler (1.5.3):
+  - RNGestureHandler (1.5.6):
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-alpha.32):
+  - RNScreens (2.0.0-beta.2):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -369,6 +369,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 66af4d5c8ff4f584c7b7cd9c4b0780920f27fce2
   Yoga: 6af72bedeaea291a3a3717772d6d41836f23a1b9
 
-PODFILE CHECKSUM: 0c19e47181ad32eb7827d5733736a545435ea2a5
+PODFILE CHECKSUM: 72b7133d5f697ad71a98796695f81ab649550e25
 
 COCOAPODS: 1.5.3

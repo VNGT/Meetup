@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Platform, StatusBar, SafeAreaView, View } from 'react-native';
+import { Platform, StatusBar, SafeAreaView } from 'react-native';
 import Navigation from './src/routes/Navigation';
 import glStyle from './src/styles/global.style';
 import { Provider as PaperProvider } from 'react-native-paper';

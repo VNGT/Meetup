@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import MAGIC from '../../constants/en_US';
 import styles from '../../styles/login.style';
+import MAGIC from '../../constants/en_US';
 import TopGreenRectangle from '../../directives/TopGreenRectangle';
 import CardWithField from '../../directives/CardWithField';
-import ConnectServiceView from '../../directives/ConnectServiceView';
 
-class Login extends Component {
+class Signup extends Component {
 
     // Disable navigation header
     static navigationOptions = {
@@ -17,35 +16,33 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {  };
-    };
+    }
 
-    moveToSignupPage = () => this.props.navigation.navigate('SignupPage');
+    moveToLoginPage = () => this.props.navigation.navigate('LoginPage');
 
     haveAccountYet = () => (
         <View style={styles.haveAccountYetView}>
-            <Text style={styles.haveAccountYetTextSpec0}>{MAGIC.LOGIN.HAVE_ACCOUNT_YET}</Text>
-            <TouchableOpacity onPress={this.moveToSignupPage}>
-                <Text style={styles.haveAccountYetTextSpec1}>{MAGIC.LOGIN.SIGN_UP}</Text>
+            <Text style={styles.haveAccountYetTextSpec0}>{MAGIC.SIGN_UP.ALREADY_HAVE_ACCT}</Text>
+            <TouchableOpacity onPress={this.moveToLoginPage}>
+                <Text style={styles.haveAccountYetTextSpec1}>{MAGIC.SIGN_UP.SIGN_IN}</Text>
             </TouchableOpacity>
         </View>
     );
-
 
     render() {
         return (
             <View style={styles.loginView}>
                 <TopGreenRectangle
-                    setHeight={290}
-                    setTitle={MAGIC.LOGIN.TITLE}
-                    setSub={MAGIC.LOGIN.SUBTITLE}
+                    setHeight={260}
+                    setTitle={MAGIC.SIGN_UP.TITLE}
+                    setSub={MAGIC.SIGN_UP.SUBTITLE}
                     showBackArrow={true}
                 />
-                <CardWithField setCard={2} />
-                <ConnectServiceView />
+                <CardWithField setCard={3} />
                 <this.haveAccountYet />
             </View>
         );
     }
 }
 
-export default withNavigation(Login);
+export default withNavigation(Signup);
