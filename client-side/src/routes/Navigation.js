@@ -1,16 +1,17 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import Reset from '../components/reset_password/Reset';
-// import Login from '../components/login/login';
+import Reset from '../components/login/Reset';
+import Login from '../components/login/Login';
+import Welcome from '../components/login/Welcome';
 
 const RootStack = createStackNavigator(
 	{
-		ResetPasswordPage: Reset
-		// More pages go here
+		LoginPage: Login,
+		ResetPasswordPage: Reset,
+		WelcomePage: Welcome
 	},
 	{
-		// Route call when page load
-		initialRouteName: 'ResetPasswordPage'
+		initialRouteName: 'WelcomePage'
 	}
 );
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import glStyle from '../../styles/global.style';
-import BackButton from '../../directives/backButton';
+import BackButton from '../../directives/BackButton';
 import MAGIC from '../../constants/en_US';
 import DimissKeyboard from '../../directives/DimissKeyboard';
 

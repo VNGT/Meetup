@@ -1,4 +1,22 @@
 {
+    "LOGIN": {
+        "TITLE": "Sign in",
+        "SUBTITLE": "Let's discover amazing things",
+        "BUTTON_NAME": "Let's Go",
+        "FORGOT_PASS": "Forgot Password?",
+        "EMAIL": "GT Email",
+        "PASSWORD": "Password",
+        "CONNECT": "Or connect using",
+        "HAVE_ACCOUNT_YET": "Do you have account yet?",
+        "SIGN_UP": " Sign up"
+    },
+    "WELCOME": {
+        "TITLE": "Welcome To Let's Meet",
+        "SUBTITLE": "Discover Amazing Things Near Around You",
+        "LOGIN": "Sign In",
+        "SIGN_UP": "Sign Up",
+        "OR": "Or"
+    },
     "FORGET_PASS": {
         "HEADER": "Reset Password",
         "SUBTITLE": "Please insert your phone number to reset the password"
