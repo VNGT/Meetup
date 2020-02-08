@@ -19,9 +19,7 @@ class Login extends Component {
         this.state = {  };
     };
 
-    moveToSignupPage = () => {
-        // TODO:
-    };
+    moveToSignupPage = () => this.props.navigation.navigate('SignupPage');
 
     haveAccountYet = () => (
         <View style={styles.haveAccountYetView}>
@@ -42,7 +40,7 @@ class Login extends Component {
                     setSub={MAGIC.LOGIN.SUBTITLE}
                     showBackArrow={true}
                 />
-                <CardWithField />
+                <CardWithField setCard={2} />
                 <ConnectServiceView />
                 <this.haveAccountYet />
             </View>

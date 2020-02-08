@@ -17,8 +17,27 @@
         "SIGN_UP": "Sign Up",
         "OR": "Or"
     },
+    "SIGN_UP": {
+        "TITLE": "Sign up",
+        "SUBTITLE": "Let's join our community",
+        "EMAIL": "GT Email",
+        "PASSWORD": "Password",
+        "REPEAT_PASS": "Repeat Password",
+        "FULL_NAME": "Full Name",
+        "BUTTON": "Let's Join",
+        "ALREADY_HAVE_ACCT": "Already have account?",
+        "SIGN_IN": " Sign in"
+    },
     "FORGET_PASS": {
-        "HEADER": "Reset Password",
-        "SUBTITLE": "Please insert your phone number to reset the password"
+        "TITLE": "Let's Recover",
+        "SUBTITLE": "Reset your password to find amazing event nearby",
+        "VERIFY_BUTTON": "Verify Email",
+        "EMAIL": "Email Address",
+        "SECOND_TITLE": "New Password",
+        "SECOND_SUB": "Enter your new password",
+        "RECOVER_BUTTON": "Recover Password",
+        "PASSWORD_CHANGED": "Password Changed",
+        "CONGRATS": "Congrats!!! You have successfully reset your password.",
+        "BACK_LOGIN": "Back To Login"
     }
 }

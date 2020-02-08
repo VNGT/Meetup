@@ -47,21 +47,6 @@ export default StyleSheet.create({
         width: '75%',
         textAlign: 'left'
     },
-    buttonSpec: {
-        backgroundColor: robinGreenColor,
-        width: '90%',
-        alignSelf: 'center',
-        height: 43,
-        marginBottom: 20,
-        marginTop: 30,
-    },
-    buttonTextSpec: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: 10,
-        color: 'white',
-    },
     forgetPasswordSpec: {
         color: robinGreenColor,
         fontWeight: 'bold',
@@ -140,37 +125,32 @@ export default StyleSheet.create({
         textAlign: 'center',
         color: '#A6A1A1'
     },
-    welcomeSignInSpec: {
-        marginTop: 30,
-        width: '78%',
-        height: 43,
-        alignSelf: 'center',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#21CD99',
-    },
     robinGreenColor: {
         backgroundColor: '#21CD99',
     },
-    whiteView: {
-        backgroundColor: 'white'
-    },
-    textColorWhite: {
-        color: 'white',
-    },
-    textColorGreen: {
-        color: '#21CD99',
-    },
-    greenButtonSpec: {
-        fontSize: 23,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: 6
-    },
     welcomeOrService: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 17,
         textAlign: 'center',
         marginTop: 20
+    },
+    verifyPasscodeTextTitle: {
+        color: robinGreenColor,
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginTop: 30,
+        textAlign: 'center'
+    },
+    verifyPasscodeSubtitle: {
+        color: '#C3C3C3',
+        textAlign: 'center',
+        fontSize: 13,
+        marginBottom: 20
+    },
+    verifyIconSpec: {
+        width: 180,
+        height: 180,
+        alignSelf: 'center',
+        marginBottom: 10
     }
 });

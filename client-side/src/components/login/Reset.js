@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import glStyle from '../../styles/global.style';
-import BackButton from '../../directives/BackButton';
+import styles from '../../styles/login.style';
 import MAGIC from '../../constants/en_US';
-import DimissKeyboard from '../../directives/DimissKeyboard';
+import TopGreenRectangle from '../../directives/TopGreenRectangle';
+import CardWithField from '../../directives/CardWithField';
 
 class Reset extends Component {
 
@@ -17,32 +17,18 @@ class Reset extends Component {
 		this.state = {  };
 	}
 
-	headerTextView = () => {
-		return (
-			<Text style={glStyle.headerText}>{MAGIC.FORGET_PASS.HEADER}</Text>
-		);
-	};
-
-	subtitleTextView = () => {
-		return (
-			<Text style={glStyle.subtitleText}>{MAGIC.FORGET_PASS.SUBTITLE}</Text>
-		);
-	};
-
-	titleView = () => {
-		return(
-			<View>
-				<BackButton/>
-				<this.headerTextView/>
-				<this.subtitleTextView/>
-			</View>
-		);
-	};
-
 	render() {
 		return (
-			<View style={glStyle.mainView}>
-				<this.titleView/>
+			<View style={styles.loginView}>
+				<TopGreenRectangle
+					setHeight={280}
+					setTitle={MAGIC.FORGET_PASS.SECOND_TITLE}
+					setSub={MAGIC.FORGET_PASS.SECOND_SUB}
+					showBackArrow={true}
+				/>
+				<CardWithField
+					setCard={5}
+				/>
 			</View>
 		);
 	}
