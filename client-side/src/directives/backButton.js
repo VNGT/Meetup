@@ -10,7 +10,7 @@ class BackButton extends Component {
 	render() {
 		return (
 			<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-				<Icon style={glStyle.backButton} name="chevron-left"/>
+				<Icon style={glStyle.backButton} name="arrow-back"/>
 			</TouchableOpacity>
 		);
 	}
