@@ -3,7 +3,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
 let option = {
-	region: process.env.AWS_REGION,
+	region: process.env.REGION,
 	accessKeyId: process.env.AWS_KEY,
 	secretAccessKey: process.env.AWS_SECRETKEY
 };

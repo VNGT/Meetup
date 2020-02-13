@@ -38,7 +38,7 @@ provider:
     ACCOUNTS_TABLE: ${self:custom.secret.ACCOUNTS_TABLE}
     EVENTS_TABLE: ${self:custom.secret.EVENTS_TABLE}
     GROUPS_TABLE: ${self:custom.secret.GROUPS_TABLE}
-    AWS_REGION: ${self:custom.secret.REGION}
+    REGION: ${self:custom.secret.REGION}
     STAGE: ${self:custom.secret.STAGE}
   iamRoleStatements:
     - Effect: Allow

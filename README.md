@@ -14,7 +14,7 @@
     AWS_KEY=*CONTACT ME TO GET SECRET KEY*
     AWS_SECRETKEY=*CONTACT ME TO GET SECRET KEY*
     AWS_ENDPOINT=http://localhost:8000
-    AWS_REGION=us-east-1
+    REGION=us-east-1
     ACCOUNTS_TABLE=accounts
     EVENTS_TABLE=events
     GROUPS_TABLE=groups
