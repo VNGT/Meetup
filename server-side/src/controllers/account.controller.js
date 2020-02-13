@@ -25,7 +25,7 @@ exports.getAccountById = (async (event) => {
 exports.deleteAccountById = (async (event) => {
 	const { acctId } = event.pathParameters;
 	const idDelete = await accountReq.delete(acctId);
-	if (!idDelete) { return ok(idDelete); }
+	if (idDelete) { return ok(idDelete); }
 	return error({message: 'Can not find ID'});
 });
 

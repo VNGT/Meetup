@@ -2,13 +2,18 @@ const AWS = require('aws-sdk');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
-const options = {
-	endpoint: process.env.AWS_ENDPOINT,
-	region: 'localhost',
+let option = {
+	region: process.env.AWS_REGION,
 	accessKeyId: process.env.AWS_KEY,
 	secretAccessKey: process.env.AWS_SECRETKEY
 };
 
-const dynamo = new AWS.DynamoDB(options);
+if (process.env.AWS_ENDPOINT) {
+	// if process.env.AWS_ENDPOINT found -> running on local
+	// if process.env.AWS_ENDPOINT not found -> running on real dynamo
+	option['endpoint'] = process.env.AWS_ENDPOINT;
+}
+
+const dynamo = new AWS.DynamoDB(option);
 const doclient = new AWS.DynamoDB.DocumentClient({ service: dynamo });
 module.exports = { dynamo, doclient };
