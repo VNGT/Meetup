@@ -1,7 +1,7 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Reset from '../components/login/Reset';
-import Login from '../components/login/Login';
+import Login from '../components/login/login';
 import Welcome from '../components/login/Welcome';
 import Signup from '../components/login/Signup';
 import ResetPassword from '../components/login/ResetPassword';

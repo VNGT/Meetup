@@ -10,7 +10,7 @@ AWS_KEY=$(grep AWS_KEY .env | cut -d '=' -f2)
 AWS_SECRETKEY=$(grep AWS_SECRETKEY .env | cut -d '=' -f2)
 serverless config credentials --provider aws --key ${AWS_KEY[0]} --secret ${AWS_SECRETKEY[0]} -o
 
-echo 'Installing server-side libraries'
+echo 'Installing server-side libraries \n'
 cd server-side/ && npm install && npm run dynamodb-install && cd ../
 
 echo 'Installing homebrew \n'

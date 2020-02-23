@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from '../styles/login.style';
-import BackButton from './BackButton';
+import BackButton from './backButton';
 const bannerImage = '../styles/assets/friends.png';
 
 export default class TopGreenRectangle extends Component {

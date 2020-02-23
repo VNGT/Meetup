@@ -1,10 +1,8 @@
-const { doclient } = require('../config/database.js');
-const RequestCall = require('../utils/request.util');
+const { doclient } = require('../config/database');
 
 exports.test = async () => {
-	const a = new RequestCall(doclient, 'accounts');
 	return {
 		statusCode: 200,
-		body: JSON.stringify(await a.list()),
+		body: JSON.stringify('Server Working!!!!'),
 	};
 };
