@@ -10,9 +10,7 @@ export default class NavigationFooter extends Component {
         this.state = {  };
     }
 
-    moveToDashboard = () => {
-        // TODO:
-    };
+    moveToDashboard = () => this.props.navigation.navigate('DashboardPage');
 
     moveToSearch = () => {
         // TODO:
