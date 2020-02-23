@@ -3,80 +3,59 @@ app: let-meet
 service: server-side
 
 custom:
-  # secrets: ${file(secrets.json)}
+  secret: ${file(secret.json)}
   serverless-offline:
-    host: 0.0.0.0 # For docker container hosting
+    host: 0.0.0.0 # For host container hosting
   dynamodb:
     stages:
-      - dev
+      - ${self:custom.secret.STAGE}
     start:
-      port: 8000
       cors: true
       inMemory: true
       migrate: true
       seed: true
-    seed:
+    seed: # Migrate data
       dev:
         sources:
-          - table: accounts
+          - table: ${self:custom.secret.ACCOUNTS_TABLE}
             sources: [./src/seeders/accounts.data.json]
-          - table: events
+          - table: ${self:custom.secret.EVENTS_TABLE}
             sources: [./src/seeders/events.data.json]
-          - table: groups
+          - table: ${self:custom.secret.GROUPS_TABLE}
             sources: [./src/seeders/groups.data.json]
 
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
 
-resources:
-  Resources:
-    accounts:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: accounts
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-    events:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: events
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-    groups:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: groups
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-
 provider:
   name: aws
   runtime: nodejs12.x
   versionFunctions: false
-  stage: dev
+  stage: ${self:custom.secret.STAGE}
+  region: ${self:custom.secret.REGION}
   environment:
+    ACCOUNTS_TABLE: ${self:custom.secret.ACCOUNTS_TABLE}
+    EVENTS_TABLE: ${self:custom.secret.EVENTS_TABLE}
+    GROUPS_TABLE: ${self:custom.secret.GROUPS_TABLE}
+    REGION: ${self:custom.secret.REGION}
+    STAGE: ${self:custom.secret.STAGE}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "Fn::GetAtt": [ accounts, Arn ]
+        - "Fn::GetAtt": [ events, Arn ]
+        - "Fn::GetAtt": [ groups, Arn ]
+        # - arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.ACCOUNTS_TABLE}
+        # - arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.EVENTS_TABLE}
+        # - arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.GROUPS_TABLE}
 
 functions:
   # Test Function
@@ -107,15 +86,15 @@ functions:
   get_event_by_id:
     handler: src/controllers/event.controller.getEventById
     events:
-      - http: get v1/event/{acctId}
+      - http: get v1/event/{eventId}
   delete_event_by_id:
     handler: src/controllers/event.controller.deleteEventById
     events:
-      - http: delete v1/event/{acctId}
+      - http: delete v1/event/{eventId}
   update_event_by_id:
     handler: src/controllers/event.controller.updateEventById
     events:
-      - http: put v1/event/{acctId}
+      - http: put v1/event/{eventId}
   get_event:
     handler: src/controllers/event.controller.getEvent
     events:
@@ -146,3 +125,45 @@ functions:
     handler: src/controllers/group.controller.updateGroupById
     events:
       - http: put v1/group/{groupId}
+
+resources:
+  Resources:
+    accounts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ACCOUNTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    events:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.EVENTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    groups:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.GROUPS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

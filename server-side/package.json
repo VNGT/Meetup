@@ -6,9 +6,9 @@
     "deploy-dev": "serverless deploy --stage dev",
     "deploy-prod": "serverless deploy --stage prod",
     "deploy-both": "serverless deploy --stage dev && serverless deploy --stage prod",
-    "test-deploy": "serverless invoke -f",
     "local:dev": "nodemon --exec serverless offline start",
-    "dynamodb-install": "serverless dynamodb install"
+    "dynamodb-install": "serverless dynamodb install",
+    "seed-db": "sls dynamodb seed --online --region us-east-1"
   },
   "license": "ISC",
   "devDependencies": {
