@@ -9,7 +9,8 @@ export default StyleSheet.create({
 	},
 	bottomSafe: {
 		flex: 1,
-		backgroundColor: '#C3C3C3',
+		// backgroundColor: '#C3C3C3',
+		backgroundColor: 'white'
 	},
 	mainView: {
 		flex: 1,

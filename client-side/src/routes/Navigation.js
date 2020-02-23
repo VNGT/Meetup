@@ -6,6 +6,7 @@ import Welcome from '../components/login/Welcome';
 import Signup from '../components/login/Signup';
 import ResetPassword from '../components/login/ResetPassword';
 import PasswordVerified from '../components/login/PasswordVerified';
+import Dashboard from '../components/main/Dashboard';
 
 const RootStack = createStackNavigator(
 	{
@@ -14,10 +15,11 @@ const RootStack = createStackNavigator(
 		WelcomePage: Welcome,
 		SignupPage: Signup,
 		ResetPasswordPage: ResetPassword,
-		PasswordVerifyPage: PasswordVerified
+		PasswordVerifyPage: PasswordVerified,
+		DashboardPage: Dashboard
 	},
 	{
-		initialRouteName: 'WelcomePage'
+		initialRouteName: 'DashboardPage'
 	}
 );
 

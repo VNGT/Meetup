@@ -14,7 +14,7 @@ export default StyleSheet.create({
     floatButtonView: {
         marginLeft: 50,
         marginRight: 40,
-        marginTop: -20,
+        marginTop: -30,
         width: 65,
         height: 65,
         backgroundColor: '#21CD99',
@@ -30,6 +30,9 @@ export default StyleSheet.create({
         width: '100%',
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+        borderColor: 'black',
+        borderWidth: 0.5,
+        borderBottomWidth: 0,
         alignSelf: 'center',
         height: 45,
         backgroundColor: 'white',
