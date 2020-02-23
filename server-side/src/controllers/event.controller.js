@@ -5,6 +5,8 @@ const statusCode = require('../utils/response.util');
 const shortid = require('shortid');
 
 const eventReq = new RequestCall(doclient, process.env.EVENTS_TABLE);
+const accountReq = new RequestCall(doclient, process.env.ACCOUNTS_TABLE);
+
 const ok = statusCode.withStatusCode(200, JSON.stringify);
 const error = statusCode.withStatusCode(500, JSON.stringify);
 
@@ -38,6 +40,16 @@ exports.getSearchEvents = (async (event) => {
 		FilterExpression:'major = :maj AND coursenumber = :cn'
 	}
 	const { Items } = await eventReq.query(param);
+	Items.sort((a, b) => {
+		if (a.major.localeCompare(b.major) == 0) {
+			return a.coursenumber.localeCompare(b.coursenumber);
+		}
+		return a.major.localeCompare(b.major);
+	});
+	for (var item of Items) {
+		var account = await accountReq.get(item.host);
+		item.host = account["firstname"] + " " + account["lastname"];
+	}
 	return ok(Items);
 })
 
@@ -46,6 +58,16 @@ exports.getEvents = (async() => {
 		TableName: process.env.EVENTS_TABLE
 	}
 	const { Items } = await eventReq.query(param);
+	Items.sort((a, b) => {
+		if (a.major.localeCompare(b.major) == 0) {
+			return a.coursenumber.localeCompare(b.coursenumber);
+		}
+		return a.major.localeCompare(b.major);
+	});
+	for (var item of Items) {
+		var account = await accountReq.get(item.host);
+		item.host = account["firstname"] + " " + account["lastname"];
+	}
 	return ok(Items);
 });
 
