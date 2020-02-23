@@ -24,6 +24,25 @@ exports.getEventById = (async() => {
 	};
 });
 
+exports.getSearchEvents = (async (event) => {
+	const { queryString } = event.pathParameters;
+	const query = queryString.split(" ");
+	const major = query[0].toUpperCase();
+	const courseNumber = query[1].toUpperCase();
+	
+	const { Items } = await doclient.scan({
+		TableName: process.env.EVENTS_TABLE,
+		ExpressionAttributeValues: {
+			':maj': major,
+			':cn': courseNumber
+		},
+		FilterExpression:'major = :maj AND coursenumber = :cn'
+	}, (err, res) => {
+		return res
+	}).promise();
+	return ok(Items);
+})
+
 exports.getEvents = (async() => {
 	return {
 		statusCode: 200,

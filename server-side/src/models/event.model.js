@@ -11,14 +11,14 @@ class Event {
 	}
 }
 
-export class Time {
+class Time {
 	constructor() {
 		this.date = ""
 		this.time = ""
 	}
 }
 
-export class Location {
+class Location {
 	constructor() {
 		this.zip = "",
 		this.address = "",
