@@ -51,6 +51,12 @@ class RequestCall {
 		return id;
 	}
 
+	async query(param) {
+		return await this._documentClient.scan(param, (err,res) => {
+			return res;
+		}).promise();
+	}
+
 	_createParamObject(additionalArgs = {}) {
 		return Object.assign({}, this._tableName, additionalArgs);
 	}

@@ -26,31 +26,26 @@ exports.getEventById = (async() => {
 
 exports.getSearchEvents = (async (event) => {
 	const { queryString } = event.pathParameters;
-	console.log(queryString)
 	const query = queryString.split("_");
-	console.log(query)
 	const major = query[0].toUpperCase();
 	const courseNumber = query[1].toUpperCase();
-	
-	const { Items } = await doclient.scan({
+	const param = {
 		TableName: process.env.EVENTS_TABLE,
 		ExpressionAttributeValues: {
 			':maj': major,
 			':cn': courseNumber
 		},
 		FilterExpression:'major = :maj AND coursenumber = :cn'
-	}, (err, res) => {
-		return res
-	}).promise();
+	}
+	const { Items } = await eventReq.query(param);
 	return ok(Items);
 })
 
 exports.getEvents = (async() => {
-	const { Items } = await doclient.scan({
+	const param = {
 		TableName: process.env.EVENTS_TABLE
-	}, (err, res) => {
-		return res
-	}).promise();
+	}
+	const { Items } = await eventReq.query(param);
 	return ok(Items);
 });
 
