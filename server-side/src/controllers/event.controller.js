@@ -26,7 +26,9 @@ exports.getEventById = (async() => {
 
 exports.getSearchEvents = (async (event) => {
 	const { queryString } = event.pathParameters;
-	const query = queryString.split(" ");
+	console.log(queryString)
+	const query = queryString.split("_");
+	console.log(query)
 	const major = query[0].toUpperCase();
 	const courseNumber = query[1].toUpperCase();
 	
@@ -44,10 +46,12 @@ exports.getSearchEvents = (async (event) => {
 })
 
 exports.getEvents = (async() => {
-	return {
-		statusCode: 200,
-		body: JSON.stringify({message: 'Get all events'}),
-	};
+	const { Items } = await doclient.scan({
+		TableName: process.env.EVENTS_TABLE
+	}, (err, res) => {
+		return res
+	}).promise();
+	return ok(Items);
 });
 
 exports.deleteEventById = (async() => {
