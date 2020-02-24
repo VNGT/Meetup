@@ -3,12 +3,27 @@ class Event {
 		this.eventID = eventID;
 		this.hostID = hostID;
 		this.secondHostID = secondHostID; // Second Host Id which allow to update event info, but not able to delete or remove user
-		this.time = title;
 		this.description = description;
 		this.time = time;
 		this.location = location;
 		this.postDate = postDate;
-		this.images = images; // Description - Images
+		this.images = images; // Description - Images,
+	}
+}
+
+class Time {
+	constructor() {
+		this.date = ""
+		this.time = ""
+	}
+}
+
+class Location {
+	constructor() {
+		this.zip = "",
+		this.address = "",
+		this.city = "",
+		this.state = ""
 	}
 }
 

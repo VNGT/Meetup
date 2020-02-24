@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint:server": "eslint server-side/src/",
-    "lint:client": "eslint client-side/src/"
+    "lint:client": "eslint client-side/src/",
+    "js-lint": "./node_modules/.bin/eslint '**/*.js'",
+    "js-lint-fix": "./node_modules/.bin/eslint '**/*.js' --fix"
   },
   "author": "VNGT",
   "license": "ISC",
@@ -20,7 +22,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:server && npm run lint:client",
       "pre-push": ""
     }
   },
