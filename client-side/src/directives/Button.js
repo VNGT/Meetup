@@ -47,9 +47,10 @@ class Button extends Component {
     );
 
     decideButtonAction = (func) => {
-        if (func.includes('Page')) {
+        if (typeof func == 'string' && func.includes('Page')) {
             return this.props.navigation.navigate(func);
         } else {
+            func();
             return null;
         }
     };

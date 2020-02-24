@@ -81,6 +81,14 @@ functions:
     handler: src/controllers/account.controller.createAccount
     events:
       - http: post v1/account/
+  verify_account:
+    handler: src/controllers/account.controller.verifyAccount
+    events:
+      - http: post v1/account/verify
+  add_event:
+    handler: src/controllers/account.controller.addEventToAccount
+    events:
+      - http: post v1/account/addEvent
 
   # Event Function
   get_event_by_id:
@@ -107,10 +115,6 @@ functions:
     handler: src/controllers/event.controller.getSearchEvents
     events:
       - http: get v1/event/search/{queryString}
-  add_event:
-    handler: src/controllers/event.controller.addEvent
-    events:
-      - http: post v1/event/add
 
   # Group Function
   create_group:

@@ -22,6 +22,40 @@ exports.getAccountById = (async (event) => {
 	return ok(data);
 });
 
+exports.verifyAccount = (async (req) => {
+	const { body } = req;
+	console.log(body)
+	const param = {
+		TableName: process.env.ACCOUNTS_TABLE,
+		ExpressionAttributeValues: {
+			':email': JSON.parse(body).email,
+			':password': JSON.parse(body).password
+		},
+		FilterExpression:'email = :email AND password = :password'
+	}
+	const { Items } = await accountReq.query(param);
+	return ok(Items)
+});
+
+exports.addEventToAccount = ( async (req) => {
+	const { body } = req;
+	const account = JSON.parse(body);
+	await doclient.update({
+		TableName: process.env.ACCOUNTS_TABLE,
+		Key: {
+			"id": account["id"]
+		},
+		UpdateExpression : "SET events = :newValue",
+        ExpressionAttributeValues: {
+			':newValue' : account["events"]
+		}
+	}, (err, res) => {
+		console.log(res)
+		return res;
+	}).promise();
+	return ok("okay")
+});
+
 exports.deleteAccountById = (async (event) => {
 	const { acctId } = event.pathParameters;
 	const idDelete = await accountReq.delete(acctId);
@@ -29,9 +63,10 @@ exports.deleteAccountById = (async (event) => {
 	return error({message: 'Can not find ID'});
 });
 
+
 exports.updateAccountById = (async (event) => {
 	const { pathParameters, body } = event, { acctId } = pathParameters;
-	const rowEffected = await accountReq.put(JSON.parse(body), acctId);
+	const rowEffected = await accountReq.put(body, acctId);
 	if (rowEffected === undefined) {
 		return error({message: 'Can not find ID'});
 	} else if (rowEffected) {

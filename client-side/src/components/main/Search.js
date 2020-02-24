@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, FlatList, Text, TextInput, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styles from '../../styles/search.style';
 import NavigationFooter from '../../directives/NavigationFooter';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { GET } from '../../services/Https';
+import { GET, POST, PUT } from '../../services/Https';
 Icon.loadFont();
 
 class Search extends Component {
@@ -145,8 +145,13 @@ class Search extends Component {
         return null;
 	};
 	
-	addEvent = (event) => {
-		console.log(event);
+	addEvent = async (event) => {
+		const account = JSON.parse(await AsyncStorage.getItem("account"));
+		account["events"].push(event["id"])
+		var response = await POST("account/addEvent", account)
+		console.log(response)
+		await AsyncStorage.setItem("account", JSON.stringify(account))
+		
 	}
 
     DisplaySearchResult = () => {

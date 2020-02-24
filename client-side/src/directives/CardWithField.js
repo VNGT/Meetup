@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import styles from '../styles/login.style';
 import TEXT from '../constants/en_US';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,8 +9,10 @@ import Button from '../directives/Button';
 const facebookImg = '../styles/assets/facebook.png';
 const googleImg = '../styles/assets/google.png';
 const verifyChangeIcon = '../styles/assets/verified.png';
+import Https from '../services/Https';
+import { withNavigation } from 'react-navigation';
 
-export default class CardWithField extends Component {
+class CardWithField extends Component {
     constructor(props) {
         super(props);
         this.state = { };
@@ -32,14 +34,18 @@ export default class CardWithField extends Component {
                 lists.push(
                     <Item style={styles.inputItemSpec}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
-                        <TextInput style={styles.textInputSpec} placeholder={currentItem.text}/>
+                        <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
+                            onChangeText={(text) => currentItem.data = text}
+                        />
                     </Item>
                 );
             } else {
                 lists.push(
                     <Item style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
-                        <TextInput style={styles.textInputSpec} placeholder={currentItem.text}/>
+                        <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
+                        onChangeText={(text) => currentItem.data = text}
+                        />
                     </Item>
                 );
             }
@@ -52,11 +58,32 @@ export default class CardWithField extends Component {
         return (
             <View>
                 {this.fieldInputListGenerator(lists)}
-                {this.whichButton(2, TEXT.LOGIN.BUTTON_NAME, 'login')}
+                {this.whichButton(2, TEXT.LOGIN.BUTTON_NAME, this.loginLogic)}
                 <this.forgetPasswordText />
             </View>
         );
     };
+
+    loginLogic = async () => {
+        var email = "";
+        var password = ""
+        fields.login.forEach(field => {
+            if (field.text == "GT Email") {
+                email = field.data;
+            } else {
+                password = field.data
+            }
+        })
+        var response = await Https.POST("account/verify", {
+            email: email,
+            password: password
+        })
+        if (response["data"].length > 0) {
+            const account = response["data"][0]
+            await AsyncStorage.setItem('account', JSON.stringify(account));
+            return this.props.navigation.navigate("DashboardPage");
+        }
+    }
 
     welcomeViewCard = () => {
         return (
@@ -179,8 +206,8 @@ export default class CardWithField extends Component {
 // constant field inputs metadata
 const fields = {
     'login': [
-        {icon: 'email', text: TEXT.LOGIN.EMAIL},
-        {icon: 'lock', text: TEXT.LOGIN.PASSWORD}
+        {icon: 'email', text: TEXT.LOGIN.EMAIL, data: ""},
+        {icon: 'lock', text: TEXT.LOGIN.PASSWORD, data: ""}
     ],
     "sign_up": [
         {icon: 'email', text: TEXT.SIGN_UP.EMAIL},
@@ -200,5 +227,7 @@ const fields = {
     "enter_pass": [
         {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
         {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
-    ],
+    ]
 };
+
+export default withNavigation(CardWithField);

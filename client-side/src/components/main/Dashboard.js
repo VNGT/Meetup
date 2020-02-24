@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styles from '../../styles/dashboard.style';
 import MAGIC from '../../constants/en_US';
@@ -25,15 +25,22 @@ class Dashboard extends Component {
         };
     }
 
-    componentDidMount = () => {
-        Https.GET('event')
-        .then(res => {
-            this.setState({events: res.data.data});
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    componentDidMount = async () => {
+        this.setState({ events: [] });
+        const account = JSON.parse(await AsyncStorage.getItem("account"));
+        account["events"].forEach(e => {
+            Https.GET("event/" + e).then(res => {
+                this.setState({
+                    events: this.state.events.concat([res.data.data])
+                })
+            });
+        });
+        this.props.navigation.addListener('willFocus', this.load)
     };
+
+    load = () => {
+        this.componentDidMount()
+    }
 
     routeToEventDetail = () => {
         console.log('Here');

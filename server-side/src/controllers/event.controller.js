@@ -55,31 +55,6 @@ exports.getSearchEvents = (async (event) => {
 	return ok(Items);
 });
 
-exports.addEvent = (async (req) => {
-	const { body } = req;
-	console.log("Add!")
-	await doclient.update({
-		TableName: process.env.EVENTS_TABLE,
-		Key: {
-			"id": "vpd88SSu"
-		},
-		// UpdateExpression="SET members = list_append(members, :i)",
-		// ExpressionAttributeValues={
-		// 	':i': ["testing"],
-		// }
-		UpdateExpression : "ADD #members :categorySet",
-		ExpressionAttributeNames : {
-			'#members' : 'members'
-		},
-        ExpressionAttributeValues: {':categorySet' : doclient.createSet( [Number(5)])},
-		// ExpressionAttributeValues={":attrValue":{"SS":['five']}}
-	}, (err, res) => {
-		console.log(res)
-		return res;
-	}).promise();
-	return ok("WOW");
-})
-
 exports.getEvents = (async() => {
 	const param = {
 		TableName: process.env.EVENTS_TABLE
