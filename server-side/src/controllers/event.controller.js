@@ -19,11 +19,13 @@ exports.createEvent = (async(event) => {
 	return error({ message: 'Event already exist' });
 });
 
-exports.getEventById = (async() => {
-	return {
-		statusCode: 200,
-		body: JSON.stringify({message: 'Get an Event by ID'}),
-	};
+exports.getEventById = (async(event) => {
+	const { eventId } = event.pathParameters;
+	const data = await eventReq.get(eventId);
+	if (data === undefined || !data) {
+		return error({message: 'Can not find ID'});
+	}
+	return ok(data);
 });
 
 exports.getSearchEvents = (async (event) => {
@@ -51,6 +53,31 @@ exports.getSearchEvents = (async (event) => {
 		item.host = account["firstname"] + " " + account["lastname"];
 	}
 	return ok(Items);
+});
+
+exports.addEvent = (async (req) => {
+	const { body } = req;
+	console.log("Add!")
+	await doclient.update({
+		TableName: process.env.EVENTS_TABLE,
+		Key: {
+			"id": "vpd88SSu"
+		},
+		// UpdateExpression="SET members = list_append(members, :i)",
+		// ExpressionAttributeValues={
+		// 	':i': ["testing"],
+		// }
+		UpdateExpression : "ADD #members :categorySet",
+		ExpressionAttributeNames : {
+			'#members' : 'members'
+		},
+        ExpressionAttributeValues: {':categorySet' : doclient.createSet( [Number(5)])},
+		// ExpressionAttributeValues={":attrValue":{"SS":['five']}}
+	}, (err, res) => {
+		console.log(res)
+		return res;
+	}).promise();
+	return ok("WOW");
 })
 
 exports.getEvents = (async() => {

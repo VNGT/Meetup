@@ -107,6 +107,10 @@ functions:
     handler: src/controllers/event.controller.getSearchEvents
     events:
       - http: get v1/event/search/{queryString}
+  add_event:
+    handler: src/controllers/event.controller.addEvent
+    events:
+      - http: post v1/event/add
 
   # Group Function
   create_group:
