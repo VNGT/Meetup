@@ -33,7 +33,8 @@ class CardWithField extends Component {
                     <Item style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                         <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
-                        onChangeText={(text) => currentItem.data = text}
+                            onChangeText={(text) => currentItem.data = text}
+                            secureTextEntry={currentItem.icon == "lock"}
                         />
                     </Item>
                 );
