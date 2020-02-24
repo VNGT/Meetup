@@ -7,6 +7,7 @@ import Signup from '../components/login/Signup';
 import ResetPassword from '../components/login/ResetPassword';
 import PasswordVerified from '../components/login/PasswordVerified';
 import Dashboard from '../components/main/Dashboard';
+import Search from '../components/main/Search';
 
 const RootStack = createStackNavigator(
 	{
@@ -16,10 +17,11 @@ const RootStack = createStackNavigator(
 		SignupPage: Signup,
 		ResetPasswordPage: ResetPassword,
 		PasswordVerifyPage: PasswordVerified,
-		DashboardPage: Dashboard
+		DashboardPage: Dashboard,
+		SearchPage: Search
 	},
 	{
-		initialRouteName: 'DashboardPage'
+		initialRouteName: 'SearchPage'
 	}
 );
 

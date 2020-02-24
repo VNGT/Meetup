@@ -27,8 +27,8 @@ class Dashboard extends Component {
 
     componentDidMount = () => {
         Https.GET('event')
-        .then(async res => {
-            await this.setState({events: res.data.data});
+        .then(res => {
+            this.setState({events: res.data.data});
         })
         .catch(err => {
             console.log(err);

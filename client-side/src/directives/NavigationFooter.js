@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import styles from '../styles/navFooter.style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 Icon.loadFont();
 
-export default class NavigationFooter extends Component {
+class NavigationFooter extends Component {
     constructor(props) {
         super(props);
         this.state = {  };
@@ -58,3 +59,5 @@ export default class NavigationFooter extends Component {
         );
     }
 };
+
+export default withNavigation(NavigationFooter);
