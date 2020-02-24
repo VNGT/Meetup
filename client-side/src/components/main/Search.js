@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation';
 import styles from '../../styles/search.style';
 import NavigationFooter from '../../directives/NavigationFooter';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { GET } from '../../services/Https';
 Icon.loadFont();
 
 class Search extends Component {
@@ -16,6 +17,7 @@ class Search extends Component {
 		this.state = {
 			searchQuery: null,
 			allowToSearch: false,
+			searchResults: []
 		};
 
 		this.searchInput = React.createRef();
@@ -77,8 +79,36 @@ class Search extends Component {
 	};
 
 	searchQueryLogic = () => {
+		const { searchQuery } = this.state;
 		console.log('searching');
+		GET(`event/search/${searchQuery}`).then( res => {
+			console.log(res.response.status);
+			if (res.response.status !== '200') {
+				console.log('NOT FOUND');
+			} else {
+				this.setState({ searchResults: res.data.data ? res.data.data : []});
+			}
+		}).catch(err => {
+			console.log(err);
+		});
 	};
+
+	SearchResults = () => {
+		const { searchResults } = this.state;
+		console.log(searchResults);
+		return (
+			<View style={styles.recentList}>
+				{ searchResults.length !== 0 ? 
+					<FlatList
+						ItemSeparatorComponent={this.renderSeparator}
+						data={searchResults}
+						renderItem={({item}) => <Text style={styles.recentItem}>{item}</Text>}
+					/>
+					: <Text style={styles.result}>No Matching Results</Text>
+				}
+			</View>
+		);
+	}
 
 	renderSeparator = () => {
 		return (
@@ -115,6 +145,7 @@ class Search extends Component {
 			<View style={styles.view}>
 				<this.Title/>
 				<this.SearchField/>
+				<this.SearchResults/>
 				<this.RecentSearch/>
 				<this.Separator/>
 				<this.ResentSearchList/>

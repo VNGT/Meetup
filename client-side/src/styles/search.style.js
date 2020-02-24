@@ -68,6 +68,12 @@ export default StyleSheet.create({
 		backgroundColor: '#CED0CE',
 		marginLeft: '2%',
 		marginTop: '3%'
+	},
+	result: {
+		fontSize: 18,
+		marginLeft: '7%',
+		marginTop: '5%',
+		color: 'red'
 	}
 
 });
