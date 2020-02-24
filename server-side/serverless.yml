@@ -96,13 +96,17 @@ functions:
     events:
       - http: put v1/event/{eventId}
   get_event:
-    handler: src/controllers/event.controller.getEvent
+    handler: src/controllers/event.controller.getEvents
     events:
       - http: get v1/event
   create_event:
     handler: src/controllers/event.controller.createEvent
     events:
       - http: post v1/event
+  search_event:
+    handler: src/controllers/event.controller.getSearchEvents
+    events:
+      - http: get v1/event/search/{queryString}
 
   # Group Function
   create_group:
