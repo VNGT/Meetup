@@ -1,21 +1,22 @@
-import axios from 'axios';
+import axios from 'react-native-axios';
+const baseURL = 'https://u1j72jxymf.execute-api.us-east-1.amazonaws.com/dev/v1/';
 
-const GET = (path) => {
-    axios.get(path).then(repsonse => {
-        return repsonse;
+exports.GET = (path) => {
+    return new Promise(resolve => {
+        axios.get(`${baseURL}${path}`)
+        .then(response => resolve(response))
+        .catch(err => resolve(err));
     });
 };
 
-const POST = (path, params) => {
+exports.POST = (path, params) => {
 
 };
 
-const UPDATE = (path, params) => {
+exports.UPDATE = (path, params) => {
 
 };
 
-const DELETE = (path, id) => {
+exports.DELETE = (path, id) => {
 
 };
-
-export default { GET, POST, UPDATE, DELETE };

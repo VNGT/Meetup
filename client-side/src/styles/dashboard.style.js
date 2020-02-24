@@ -18,5 +18,36 @@ export default StyleSheet.create({
         height: '95.3%',
         marginTop: 10,
         alignSelf: 'center'
+    },
+    eventDetailView: {
+        marginTop: 20,
+        flexDirection: 'row',
+        alignSelf: 'center',
+        width: '98%',
+    },
+    leftSide: {
+        width: '30%',
+        alignItems: 'center',
+    },
+    rightSide: {
+        width: '70%',
+        marginLeft: 15,
+    },
+    bigTitle: {
+        fontSize: 28,
+        fontWeight: 'bold',
+    },
+    smallTitle: {
+        fontSize: 12,
+        fontWeight: '300',
+        marginTop: 2,
+    },
+    breakLine: {
+        width: '60%',
+        height: '1%',
+        marginTop: 20,
+        backgroundColor: 'black',
+        alignSelf: 'center',
+        opacity: 0.2,
     }
 });

@@ -4,16 +4,33 @@ import Dimensions from '../services/Dimensions';
 export default StyleSheet.create({
 	view: {
 		flex: 1,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
 	},
 	searchField: {
 		marginTop: 20,
 		flexDirection: 'row',
+		width: '75%',
+		backgroundColor: '#D8D8D8',
+		marginLeft: '7%',
+		height: '5%',
+		borderRadius: 5,
 	},
-	textInput: {
-		height: Dimensions.height / 20,
-		width: Dimensions.width / 6 * 5,
-		marginLeft: '5%'
+	colSizeSm: {
+		width: '10%',
+		justifyContent: 'center',
+		marginLeft: 5,
+	},
+	colSizeLg: {
+		width: '78%',
+		marginLeft: 3,
+		justifyContent: 'center',
+	},
+	searchTextSpec: {
+		fontSize: 23,
+	},
+	clearSpec: {
+		marginLeft: -5,
+		color: '#c3c3c3',
 	},
 	title: {
 		marginTop: '10%',
