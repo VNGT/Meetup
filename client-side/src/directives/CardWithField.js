@@ -91,6 +91,15 @@ export default class CardWithField extends Component {
         );
     };
 
+    profileDetailsView = (lists) => {
+        return (
+            <View>
+                {this.fieldInputListGenerator(lists)}
+                {this.whichButton(0, TEXT.PROFILE.BUTTON, 'signup')}
+            </View>
+        );
+    };
+
     resetPasswordVerifyEmail = (lists) => {
         return (
             <View>
@@ -151,6 +160,10 @@ export default class CardWithField extends Component {
                 </View>
             case 6:
                 return <this.verifyPasswordView />
+            case 7:
+                return <View>
+                    {this.profileDetailsView(fields.profile_details)}
+                </View>
         }
     };
 
@@ -175,11 +188,17 @@ const fields = {
         {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
         {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
     ],
+    "profile_details": [
+        {text: TEXT.PROFILE.FIRST_NAME, value: "Chau"},
+        {text: TEXT.PROFILE.LAST_NAME},
+        {text: TEXT.PROFILE.EMAIL},
+        {text: TEXT.PROFILE.MAJOR},
+    ],
     "reset_pass": [
         {icon: 'email', text: TEXT.FORGET_PASS.EMAIL}
     ],
     "enter_pass": [
         {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
         {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
-    ]
+    ],
 };

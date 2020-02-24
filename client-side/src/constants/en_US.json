@@ -10,6 +10,7 @@
         "HAVE_ACCOUNT_YET": "Do you have account yet?",
         "SIGN_UP": " Sign up"
     },
+
     "WELCOME": {
         "TITLE": "Welcome To Let's Meet",
         "SUBTITLE": "Discover Amazing Things Near Around You",
@@ -27,6 +28,16 @@
         "BUTTON": "Let's Join",
         "ALREADY_HAVE_ACCT": "Already have account?",
         "SIGN_IN": " Sign in"
+    },
+    "PROFILE": {
+        "TEMP_EMAIL": "JohnDoe@gatech.edu",
+        "EMAIL": "Email:",
+        "LAST_NAME": "Last Name:",
+        "FIRST_NAME": "First Name:",
+        "MAJOR": "Major:",
+        "FULL_NAME": "John Doe",
+        "BUTTON": "SAVE",
+        "ALREADY_HAVE_ACCT": "Already have account?"
     },
     "FORGET_PASS": {
         "TITLE": "Let's Recover",
