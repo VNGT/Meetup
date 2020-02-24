@@ -21,7 +21,7 @@ const RootStack = createStackNavigator(
 		SearchPage: Search
 	},
 	{
-		initialRouteName: 'SearchPage'
+		initialRouteName: 'DashboardPage'
 	}
 );
 

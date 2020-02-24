@@ -13,17 +13,13 @@ class NavigationFooter extends Component {
 
     moveToDashboard = () => this.props.navigation.navigate('DashboardPage');
 
-    moveToSearch = () => {
-        // TODO:
-    };
+    moveToSearch = () => this.props.navigation.navigate('SearchPage');
 
     moveToNotification = () => {
         // TODO:
     };
 
-    moveToProfile = () => {
-        // TODO:
-    };
+    moveToProfile = () => this.props.navigation.navigate('LoginPage');
 
     createEvent = () => {
         // TODO:
