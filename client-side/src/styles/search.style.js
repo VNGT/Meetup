@@ -28,16 +28,29 @@ export default StyleSheet.create({
 		marginLeft: '7%'
 	},
 	recentList: {
-		marginTop: '5%',
 		fontSize: 15,
-		marginLeft: '7%',
-		borderTopColor: 'black',
-		marginVertical: 8,
-		marginHorizontal: 16,
+		borderTopColor: 'black'
 	},
 	recentItem: {
-		fontSize: 15,
-		padding: 10
+		fontSize: 18,
+		marginLeft: '7%',
+		color: '#CED0CE',
+		fontWeight: 'bold',
+		marginBottom: '5%',
+		marginTop: '5%'
+	},
+	renderSeperator: {
+		height: 1,
+		width: '94%',
+		backgroundColor: '#CED0CE',
+		marginLeft: '3%'
+	},
+	separator: {
+		height: 1,
+		width: '96%',
+		backgroundColor: '#CED0CE',
+		marginLeft: '2%',
+		marginTop: '3%'
 	}
 
 });
