@@ -22,12 +22,12 @@ class Welcome extends Component {
                 <SafeAreaView style={styles.safeAreaTop} />
                 <SafeAreaView style={styles.safeAreaBottom}>
                     <View style={styles.welcomeView}>
-                    <TopGreenRectangle
-                        setHeight={350}
-                        showBackArrow={false}
-                        showBannerImage={true}
-                    />
-                    <CardWithField setCard={1}/>
+                        <TopGreenRectangle
+                            setHeight={350}
+                            showBackArrow={false}
+                            showBannerImage={true}
+                        />
+                        <CardWithField setCard={1}/>
                     </View>
                 </SafeAreaView>
             </Fragment>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import styles from '../styles/login.style';
+// import styles from '../styles/login.style';
 import MAGIC from '../constants/en_US';
 const facebookImg = '../styles/assets/facebook.png';
 const googleImg = '../styles/assets/google.png';

@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import { View, Text, Image } from 'react-native';
-import styles from '../styles/login.style';
+import styles from '../styles/topGreen.style.js';
 import BackButton from './BackButton';
 const bannerImage = '../styles/assets/friends.png';
 

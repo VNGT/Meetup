@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, AsyncStorage } from 'react-native';
-import styles from '../styles/login.style';
+import styles from '../styles/card.style.js';
 import TEXT from '../constants/en_US';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 Icon.loadFont(); // Load the font
 import { Item } from 'native-base';
 import Button from '../directives/Button';
-const facebookImg = '../styles/assets/facebook.png';
-const googleImg = '../styles/assets/google.png';
 const verifyChangeIcon = '../styles/assets/verified.png';
 import Https from '../services/Https';
 import { withNavigation } from 'react-navigation';
@@ -92,18 +90,7 @@ class CardWithField extends Component {
                 <Text style={styles.welcomeSubTitleSpec}>{TEXT.WELCOME.SUBTITLE}</Text>
                 {this.whichButton(0, TEXT.WELCOME.LOGIN, 'LoginPage')}
                 {this.whichButton(1, TEXT.WELCOME.SIGN_UP, 'SignupPage')}
-                <Text style={styles.welcomeOrService}>{TEXT.WELCOME.OR}</Text>
-
-                <View style={{flexDirection: 'row', alignSelf: 'center', marginBottom: 25}}>
-                    <TouchableOpacity style={styles.serviceImgMargin}
-                        onPress={this.connectWithFb}>
-                        <Image style={styles.serviceImg} source={require(facebookImg)} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.serviceImgMargin}
-                        onPress={this.connectWithGg}>
-                        <Image style={styles.serviceImg} source={require(googleImg)} />
-                    </TouchableOpacity>
-                </View>
+                <View style={{marginBottom: 35}} />
             </View>
         );
     };
