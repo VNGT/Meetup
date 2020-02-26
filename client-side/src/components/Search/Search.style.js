@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
-import Dimensions from '../services/Dimensions';
 
 export default StyleSheet.create({
-	view: {
+	topSafe: {
+		flex: 0,
+		backgroundColor: 'white',
+    },
+    bottomSafe: {
 		flex: 1,
 		backgroundColor: 'white',
 	},

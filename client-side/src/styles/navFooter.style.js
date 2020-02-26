@@ -37,7 +37,8 @@ export default StyleSheet.create({
         height: 45,
         backgroundColor: 'white',
         borderColor: '#979797',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 15,
     },
     stickAtBottom: {
         position: 'absolute',

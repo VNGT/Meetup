@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import styles from '../../styles/dashboard.style';
+import styles from './Dashboard.style.js';
 import MAGIC from '../../constants/en_US';
 import Https from '../../services/Https';
 import NavigationFooter from '../../directives/NavigationFooter.js';
@@ -25,7 +25,7 @@ class Dashboard extends Component {
         };
     }
 
-    componentDidMount = async () => {
+    componentWillMount = async () => {
         this.setState({ events: [] });
         const account = JSON.parse(await AsyncStorage.getItem("account"));
         account["events"].forEach(e => {
@@ -39,7 +39,7 @@ class Dashboard extends Component {
     };
 
     load = () => {
-        this.componentDidMount()
+        this.componentWillMount()
     }
 
     routeToEventDetail = () => {
@@ -92,7 +92,7 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <View style={styles.safeAreaTop}>
+            <View style={styles.safeAreaBottom}>
             <this.DataViewRender/>
             <NavigationFooter />
             </View>

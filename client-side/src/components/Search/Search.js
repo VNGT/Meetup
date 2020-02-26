@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { View, FlatList, Text, TextInput, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, FlatList, Text, TextInput, TouchableOpacity, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import styles from '../../styles/search.style';
+import styles from './Search.style.js';
 import NavigationFooter from '../../directives/NavigationFooter';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { GET, POST, PUT } from '../../services/Https';
+import { GET, POST } from '../../services/Https';
 Icon.loadFont();
 
 class Search extends Component {
@@ -81,10 +81,7 @@ class Search extends Component {
 	searchQueryLogic = () => {
 		const { searchQuery } = this.state;
 		var query = searchQuery.replace(" ", "_");
-		console.log(query);
-		GET(`event/search/${query}`).then( res => {
-			// console.log(stat)
-			// console.log(res.response.status);
+		GET(`event/search/${query}`).then(res => {
 			if (res.status != '200' || res.status != 200) {
 				console.log('NOT FOUND');
 			} else {
@@ -97,10 +94,9 @@ class Search extends Component {
 
 	SearchResults = () => {
 		const { searchResults } = this.state;
-		// console.log(searchResults);
 		return (
 			<View style={styles.recentList}>
-				{ searchResults.length !== 0 ? 
+				{ searchResults.length !== 0 ?
 					<FlatList
 						ItemSeparatorComponent={this.renderSeparator}
 						data={searchResults}
@@ -144,15 +140,15 @@ class Search extends Component {
 
         return null;
 	};
-	
+
 	addEvent = async (event) => {
 		const account = JSON.parse(await AsyncStorage.getItem("account"));
 		account["events"].push(event["id"])
 		var response = await POST("account/addEvent", account)
 		console.log(response)
 		await AsyncStorage.setItem("account", JSON.stringify(account))
-		
-	}
+
+	};
 
     DisplaySearchResult = () => {
         return (
@@ -163,23 +159,12 @@ class Search extends Component {
 					</ScrollView>
 				</View>
 			</View>
-            
         );
     };
 
-	renderSeparator = () => {
-		return (
-			<View
-				style={styles.renderSeperator}
-			/>
-		);
-	};
+	renderSeparator = () => <View style={styles.renderSeperator} />;
 
-	Separator = () => (
-		<View style={styles.separator}/>
-	);
-
-	SearchIcon = () => (
+	RecentIcon = () => (
 		<Icon name="access-time" size={20} color="#CED0CE"/>
 	);
 
@@ -192,7 +177,7 @@ class Search extends Component {
 					{key: 'CS 1332 Midterm'},
 					{key: 'Mock Interview'},
 				]}
-				renderItem={({item}) => <Text style={styles.recentItem}>{<this.SearchIcon/>} {item.key}</Text>}
+				renderItem={({item}) => <Text style={styles.recentItem}>{<this.RecentIcon/>} {item.key}</Text>}
 			/>
 		</View>
 	);
@@ -200,20 +185,22 @@ class Search extends Component {
 	render() {
 		const { searchResults } = this.state;
 		return (
-			<View style={styles.view}>
-				<this.Title/>
-				<this.SearchField/>
-				{ searchResults.length !== 0 ? 
-					<this.DisplaySearchResult/>
-					: <View>
-						<this.RecentSearch/>
-						<this.Separator/>
-						<this.ResentSearchList/>
-					</View>
-				}
-				<NavigationFooter/>
-				
-			</View>
+			<Fragment>
+				<SafeAreaView style={styles.topSafe} />
+				<SafeAreaView style={styles.bottomSafe}>
+					<this.Title/>
+					<this.SearchField/>
+					{ searchResults.length !== 0 ?
+						<this.DisplaySearchResult/>
+						: <View>
+							<this.RecentSearch/>
+							<View style={styles.separator}/>
+							<this.ResentSearchList/>
+						</View>
+					}
+					<NavigationFooter/>
+				</SafeAreaView>
+			</Fragment>
 		);
 	}
 }

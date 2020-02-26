@@ -30,16 +30,7 @@ class CardWithField extends Component {
         let lists = [];
         for (let i = 0; i < items.length; i++) {
             const currentItem = items[i];
-            if (i > 0) {
-                lists.push(
-                    <Item style={styles.inputItemSpec}>
-                        <Icon style={styles.fieldIcon} name={currentItem.icon}/>
-                        <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
-                            onChangeText={(text) => currentItem.data = text}
-                        />
-                    </Item>
-                );
-            } else {
+            if (i <= 0) {
                 lists.push(
                     <Item style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
@@ -48,7 +39,16 @@ class CardWithField extends Component {
                         />
                     </Item>
                 );
+                continue;
             }
+            lists.push(
+                <Item style={styles.inputItemSpec}>
+                    <Icon style={styles.fieldIcon} name={currentItem.icon}/>
+                    <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
+                        onChangeText={(text) => currentItem.data = text}
+                    />
+                </Item>
+            );
         }
         return lists;
     };
@@ -122,7 +122,7 @@ class CardWithField extends Component {
         return (
             <View>
                 {this.fieldInputListGenerator(lists)}
-                {this.whichButton(0, TEXT.PROFILE.BUTTON, 'signup')}
+                {this.whichButton(0, TEXT.PROFILE.BUTTON, 'saveData')}
             </View>
         );
     };

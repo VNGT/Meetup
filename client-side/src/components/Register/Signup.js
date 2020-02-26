@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import styles from '../../styles/login.style';
+import styles from './Signup.style.js';
 import MAGIC from '../../constants/en_US';
 import TopGreenRectangle from '../../directives/TopGreenRectangle';
 import CardWithField from '../../directives/CardWithField';
@@ -31,16 +31,21 @@ class Signup extends Component {
 
     render() {
         return (
-            <View style={styles.loginView}>
-                <TopGreenRectangle
-                    setHeight={260}
-                    setTitle={MAGIC.SIGN_UP.TITLE}
-                    setSub={MAGIC.SIGN_UP.SUBTITLE}
-                    showBackArrow={true}
-                />
-                <CardWithField setCard={3} />
-                <this.haveAccountYet />
-            </View>
+            <Fragment>
+                <SafeAreaView style={styles.safeAreaTop} />
+                <SafeAreaView style={styles.safeAreaBottom}>
+                    <View style={styles.loginView}>
+                        <TopGreenRectangle
+                            setHeight={260}
+                            setTitle={MAGIC.SIGN_UP.TITLE}
+                            setSub={MAGIC.SIGN_UP.SUBTITLE}
+                            showBackArrow={true}
+                        />
+                        <CardWithField setCard={3} />
+                        <this.haveAccountYet />
+                    </View>
+                </SafeAreaView>
+            </Fragment>
         );
     }
 }

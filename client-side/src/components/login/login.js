@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import MAGIC from '../../constants/en_US';
-import styles from '../../styles/login.style';
+import styles from './Login.style.js';
 import TopGreenRectangle from '../../directives/TopGreenRectangle';
 import CardWithField from '../../directives/CardWithField';
 import ConnectServiceView from '../../directives/ConnectServiceView';
@@ -33,17 +33,21 @@ class Login extends Component {
 
     render() {
         return (
-            <View style={styles.loginView}>
-                <TopGreenRectangle
-                    setHeight={290}
-                    setTitle={MAGIC.LOGIN.TITLE}
-                    setSub={MAGIC.LOGIN.SUBTITLE}
-                    showBackArrow={true}
-                />
-                <CardWithField setCard={2} />
-                <ConnectServiceView />
-                <this.haveAccountYet />
-            </View>
+            <Fragment>
+                <SafeAreaView style={styles.safeAreaTop} />
+                <SafeAreaView style={styles.safeAreaBottom}>
+                    <View style={styles.loginView}>
+                        <TopGreenRectangle
+                            setHeight={290}
+                            setTitle={MAGIC.LOGIN.TITLE}
+                            setSub={MAGIC.LOGIN.SUBTITLE}
+                            showBackArrow={true}
+                        />
+                        <CardWithField setCard={2} />
+                        <this.haveAccountYet />
+                    </View>
+                </SafeAreaView>
+            </Fragment>
         );
     }
 }
