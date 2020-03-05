@@ -19,7 +19,7 @@ class NavigationFooter extends Component {
         // TODO:
     };
 
-    moveToProfile = () => this.props.navigation.navigate('LoginPage');
+    moveToProfile = () => this.props.navigation.navigate('ProfilePage');
 
     createEvent = () => {
         // TODO:
@@ -48,7 +48,7 @@ class NavigationFooter extends Component {
                 <TouchableOpacity onPress={this.moveToDashboard}>
                     <Icon style={styles.iconSpecR} name='notifications-none' />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.moveToSearch}>
+                <TouchableOpacity onPress={this.moveToProfile}>
                     <Icon style={styles.iconSpecL} name='perm-identity' />
                 </TouchableOpacity>
             </View>
