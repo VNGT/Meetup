@@ -3,8 +3,11 @@ import { View, Text, ScrollView, TouchableOpacity, AsyncStorage } from 'react-na
 import { withNavigation } from 'react-navigation';
 import styles from './Dashboard.style.js';
 import MAGIC from '../../constants/en_US';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Https from '../../services/Https';
 import NavigationFooter from '../../directives/NavigationFooter.js';
+import { GET, POST } from '../../services/Https';
+Icon.loadFont();
 
 class Dashboard extends Component {
 
@@ -28,6 +31,7 @@ class Dashboard extends Component {
     componentWillMount = async () => {
         this.setState({ events: [] });
         const account = JSON.parse(await AsyncStorage.getItem("account"));
+        console.log("ACCOUNTTTT:        ", account);
         account["events"].forEach(e => {
             Https.GET("event/" + e).then(res => {
                 this.setState({
@@ -57,12 +61,17 @@ class Dashboard extends Component {
                                 <Text style={styles.bigTitle}>{event.major}</Text>
                                 <Text style={styles.bigTitle}>{event.coursenumber}</Text>
                             </View>
-                            <View style={styles.rightSide}>
+                            <View style={styles.middleSide}>
                                 <Text style={styles.smallTitle}>Host by: {event.host}</Text>
                                 <Text style={styles.smallTitle}>{`Time: ${event.time.time} - ${event.time.date}`}</Text>
                                 <Text style={styles.smallTitle}>{`Location: ${event.location.address} ${event.location.city} ${event.location.zip}`}</Text>
                                 <Text style={styles.smallTitle}>Members: {event.members.length}/50</Text>
                             </View>
+                            <View style={styles.rightSide}>
+								<TouchableOpacity onPress={()=>this.deleteEvent(event)}>
+									<Icon name="remove-circle-outline" size={30} color="#21CD99"/>
+								</TouchableOpacity>
+							</View>
                         </View>
                         <View style={styles.breakLine}/>
                     </TouchableOpacity>
@@ -73,6 +82,15 @@ class Dashboard extends Component {
 
         return null;
     };
+
+    deleteEvent = async (event) => {
+        var events = this.state.events.filter(function(item) { return item.id != event.id; }); 
+        this.setState({events : events});
+        const account = JSON.parse(await AsyncStorage.getItem("account"));
+        account.events = account["events"].filter(item => item !== event.id)
+        await Https.PUT("account/" + account.id, {account} )
+        await AsyncStorage.setItem("account", JSON.stringify(account))
+	};
 
     DisplayEvents = () => {
         return (
