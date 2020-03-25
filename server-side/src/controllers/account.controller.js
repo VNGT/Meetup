@@ -64,8 +64,8 @@ exports.deleteAccountById = (async (event) => {
 });
 
 
-exports.updateAccountById = (async (event) => {
-	const { pathParameters, body } = event, { acctId } = pathParameters;
+exports.updateAccountById = (async (req) => {
+	const { body } = req, { acctId } = pathParameters;
 	const rowEffected = await accountReq.put(body, acctId);
 	if (rowEffected === undefined) {
 		return error({message: 'Can not find ID'});

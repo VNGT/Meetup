@@ -11,10 +11,15 @@ export default StyleSheet.create({
         width: '30%',
         alignItems: 'center',
     },
-    rightSide: {
-        width: '70%',
-        marginLeft: 15,
-    },
+    middleSide: {
+        width: '55%',
+        marginLeft: 5,
+	},
+	rightSide: {
+		width: '15%',
+		alignItems: "center",
+		alignSelf: "center"
+	},
     bigTitle: {
         fontSize: 28,
         fontWeight: 'bold',
