@@ -2,61 +2,54 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/button.style';
 import { withNavigation } from 'react-navigation';
+// import { ActivityIndicator } from 'react-native-paper';
 
 class Button extends Component {
 
-    buttonStyleDisplay = () => {
-        const { buttonStyle } = this.props;
-        if (buttonStyle === 0) {
-            return <this.buttonStyle0 />
-        } else if (buttonStyle === 1) {
-            return <this.buttonStyle1 />
-        } else {
-            return <this.buttonStyle2 />
-        }
+    state = {
+        loading: false,
     };
 
-    // Button style for signup in welcome page
-    buttonStyle1 = () => {
-        const { buttonFunc, buttonText } = this.props;
-        return (
-            <TouchableOpacity onPress={()=>this.decideButtonAction(buttonFunc)}>
-                <View style={[styles.welcomeSignInSpec, styles.whiteView, {marginTop:20}]}>
-                    <Text style={[styles.greenButtonSpec, styles.textColorGreen]}>{buttonText}</Text>
-                </View>
-            </TouchableOpacity>
-        )
+    wait = (time) => {
+        this.setState({loading: true});
+        return new Promise(_ => {
+            setTimeout(_ => {
+                this.setState({loading: false});
+            }, time);
+        });
     };
 
     // Button style for login in welcome page
-    buttonStyle0 = () => {
-        const { buttonFunc, buttonText } = this.props;
+    buttonStyleDisplay = () => {
+        const { buttonFunc, buttonText, buttonStyle } = this.props;
+        const { loading } = this.state;
+
         return (
             <TouchableOpacity onPress={()=>this.decideButtonAction(buttonFunc)}>
-                <View style={[styles.welcomeSignInSpec, styles.robinGreenColor]}>
-                    <Text style={[styles.greenButtonSpec, styles.textColorWhite]}>{buttonText}</Text>
-                </View>
+                {buttonStyle === 0 &&
+                    <View style={[styles.welcomeSignInSpec, styles.robinGreenColor]}>
+                        <Text style={[styles.greenButtonSpec, styles.textColorWhite]}>{buttonText}</Text>
+                    </View>
+                }
+                {buttonStyle === 1 &&
+                    <View style={[styles.welcomeSignInSpec, styles.whiteView, {marginTop:20}]}>
+                        <Text style={[styles.greenButtonSpec, styles.textColorGreen]}>{buttonText}</Text>
+                    </View>
+                }
+                {buttonStyle === 2 &&
+                    <View style={styles.buttonSpec}>
+                        <Text style={styles.buttonTextSpec}>{buttonText}</Text>
+                    </View>
+                }
             </TouchableOpacity>
         );
     };
 
-    // Button style for login page
-    buttonStyle2 = () => {
-        const { buttonFunc, buttonText } = this.props;
-        return (
-            <TouchableOpacity onPress={()=>this.decideButtonAction(buttonFunc)}>
-                <View style={styles.buttonSpec}>
-                    <Text style={styles.buttonTextSpec}>{buttonText}</Text>
-                </View>
-            </TouchableOpacity>
-        );
-    };
-
-    decideButtonAction = (func) => {
+    decideButtonAction = func => {
         if (typeof func == 'string' && func.includes('Page')) {
             return this.props.navigation.navigate(func);
         } else {
-            return func();
+            func();
         }
     };
 

@@ -31,4 +31,11 @@ export default StyleSheet.create({
         backgroundColor: robinGreenColor,
         marginBottom: 20
     },
+    logoutButton: {
+        right: 0,
+        top: 0,
+        position: 'absolute',
+        marginTop: 30,
+        marginRight: 10,
+    }
 });

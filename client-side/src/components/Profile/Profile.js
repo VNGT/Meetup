@@ -26,7 +26,7 @@ class Profile extends Component {
         };
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         //TODO: get user
     };
 

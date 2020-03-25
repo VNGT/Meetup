@@ -78,5 +78,10 @@ export default StyleSheet.create({
         height: 180,
         alignSelf: 'center',
         marginBottom: 10
+    },
+    errorMessage: {
+        textAlign: 'center',
+        color: 'red',
+        marginTop: 20
     }
 });

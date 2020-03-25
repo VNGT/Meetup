@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { withNavigation } from 'react-navigation';
 import styles from './Dashboard.style.js';
-import MAGIC from '../../constants/en_US';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Https from '../../services/Https';
 import NavigationFooter from '../../directives/NavigationFooter.js';
-import { GET, POST } from '../../services/Https';
 Icon.loadFont();
 
 class Dashboard extends Component {
@@ -19,21 +18,23 @@ class Dashboard extends Component {
         headerTitleStyle: {
             fontWeight: 'bold',
         },
+        // Disable go back button on dashboard
+        headerLeft: null
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            events: []
+            events: [],
         };
     }
 
     componentWillMount = async () => {
         this.setState({ events: [] });
-        const account = JSON.parse(await AsyncStorage.getItem("account"));
-        console.log("ACCOUNTTTT:        ", account);
-        account["events"].forEach(e => {
-            Https.GET("event/" + e).then(res => {
+        const account = JSON.parse(await AsyncStorage.getItem('account'));
+        console.log('ACCOUNTTTT:        ', account);
+        account['events'].forEach(e => {
+            Https.GET('event/' + e).then(res => {
                 this.setState({
                     events: this.state.events.concat([res.data.data])
                 })
@@ -43,7 +44,7 @@ class Dashboard extends Component {
     };
 
     load = () => {
-        this.componentWillMount()
+        this.componentWillMount();
     }
 
     routeToEventDetail = () => {
@@ -53,9 +54,9 @@ class Dashboard extends Component {
     EventDetailView = (events) => {
         let eventList = [];
         if (events.length > 0) {
-            events.forEach(event => {
+            events.forEach((event, index) => {
                 eventList.push(
-                    <TouchableOpacity onPress={()=>this.routeToEventDetail}>
+                    <TouchableOpacity key={index} onPress={()=>this.routeToEventDetail}>
                         <View style={styles.eventDetailView}>
                             <View style={styles.leftSide}>
                                 <Text style={styles.bigTitle}>{event.major}</Text>
@@ -111,8 +112,8 @@ class Dashboard extends Component {
     render() {
         return (
             <View style={styles.safeAreaBottom}>
-            <this.DataViewRender/>
-            <NavigationFooter />
+                <this.DataViewRender/>
+                <NavigationFooter />
             </View>
         );
     }

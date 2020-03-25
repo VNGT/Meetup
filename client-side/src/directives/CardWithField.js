@@ -9,7 +9,7 @@ import Button from '../directives/Button';
 const verifyChangeIcon = '../styles/assets/verified.png';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { userLogin } from '../actions/userActions';
+import { userLogin, userSignup } from '../actions/userActions';
 
 class CardWithField extends Component {
     constructor(props) {
@@ -17,16 +17,12 @@ class CardWithField extends Component {
         this.state = {
             email: '',
             password: '',
+            fullName: '',
+            repeatPassword: '',
         };
     };
 
-    // Forget password text view
-    forgetPasswordText = () => (
-        <TouchableOpacity>
-            <Text style={styles.forgetPasswordSpec}>{TEXT.LOGIN.FORGOT_PASS}</Text>
-        </TouchableOpacity>
-    );
-
+    // EventFire dectect when keyboard onChange
     onChangeText = (name, text) => {
         this.setState({[name] : text});
     };
@@ -38,7 +34,7 @@ class CardWithField extends Component {
             const currentItem = items[i];
             if (i <= 0) {
                 lists.push(
-                    <Item style={[styles.inputItemSpec, {marginTop: 35}]}>
+                    <Item key={i} style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                         <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
                             onChangeText={text => this.onChangeText(currentItem.name, text)}
@@ -49,7 +45,7 @@ class CardWithField extends Component {
                 continue;
             }
             lists.push(
-                <Item style={styles.inputItemSpec}>
+                <Item key={i} style={styles.inputItemSpec}>
                     <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                     <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
                         onChangeText={text => this.onChangeText(currentItem.name, text)}
@@ -61,23 +57,29 @@ class CardWithField extends Component {
         return lists;
     };
 
-    // Login Page input field
+    // Login Page View
     loginInputField = (lists) => {
+        const { loginError } = this.props;
         return (
             <View>
                 {this.fieldInputListGenerator(lists)}
+                <Text style={styles.errorMessage}>{loginError}</Text>
                 {this.whichButton(2, TEXT.LOGIN.BUTTON_NAME, this.loginLogic)}
-                <this.forgetPasswordText />
+                <TouchableOpacity>
+                    <Text style={styles.forgetPasswordSpec}>{TEXT.LOGIN.FORGOT_PASS}</Text>
+                </TouchableOpacity>
             </View>
         );
     };
 
+    // Main logic to login
     loginLogic = () => {
-        const { navigation } = this.props;
+        const { navigation, userLogin } = this.props;
         const { email, password } = this.state;
-        this.props.userLogin(email, password, navigation);
+        userLogin(email, password, navigation);
     }
 
+    // Main welcome card view
     welcomeViewCard = () => {
         return (
             <View>
@@ -92,12 +94,26 @@ class CardWithField extends Component {
 
     // Sign up view with input field
     signupListView = (lists) => {
+        const { errorMessage } = this.props;
         return (
             <View>
                 {this.fieldInputListGenerator(lists)}
-                {this.whichButton(2, TEXT.SIGN_UP.BUTTON, 'signup')}
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+                {this.whichButton(2, TEXT.SIGN_UP.BUTTON, this.signupLogic)}
             </View>
         );
+    };
+
+    // Signup main logic
+    signupLogic = () => {
+        const { email, password, fullName, repeatPassword } = this.state;
+        const { navigation, userSignup } = this.props;
+
+        // Get out first and last name
+        const splitName = fullName.split(' ');
+        const firstName = splitName[0], lastName = splitName[1];
+
+        userSignup(email, firstName, lastName, password, navigation);
     };
 
     profileDetailsView = (lists) => {
@@ -191,37 +207,36 @@ const fields = {
         {icon: 'email', text: TEXT.LOGIN.EMAIL, name: 'email'},
         {icon: 'lock', text: TEXT.LOGIN.PASSWORD, name: 'password'}
     ],
-    "sign_up": [
-        {icon: 'email', text: TEXT.SIGN_UP.EMAIL},
-        {icon: 'person', text: TEXT.SIGN_UP.FULL_NAME},
-        {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
-        {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
+    'sign_up': [
+        {icon: 'email', text: TEXT.SIGN_UP.EMAIL, name: 'email'},
+        {icon: 'person', text: TEXT.SIGN_UP.FULL_NAME, name: 'fullName'},
+        {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD, name: 'password'},
+        {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS, name: 'repeatPassword'}
     ],
-    "profile_details": [
-        {text: TEXT.PROFILE.FIRST_NAME, value: "Chau"},
+    'profile_details': [
+        {text: TEXT.PROFILE.FIRST_NAME, value: 'Chau'},
         {text: TEXT.PROFILE.LAST_NAME},
         {text: TEXT.PROFILE.EMAIL},
         {text: TEXT.PROFILE.MAJOR},
     ],
-    "reset_pass": [
+    'reset_pass': [
         {icon: 'email', text: TEXT.FORGET_PASS.EMAIL}
     ],
-    "enter_pass": [
+    'enter_pass': [
         {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
         {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
     ]
 };
 
 // Get new item from state
-const mapStateToProps = state => {
-    return ({
-        users: state.users.items
-    });
-};
-
+const mapStateToProps = state => ({
+    errorMessage: state.userReducer.errorMessage,
+    loginError: state.userReducer.loginError
+});
 
 const mapDispatchToProps = {
     userLogin,
+    userSignup
 };
 
-export default connect(null, mapDispatchToProps) (withNavigation(CardWithField));
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(CardWithField));

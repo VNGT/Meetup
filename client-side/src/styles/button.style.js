@@ -35,7 +35,7 @@ export default StyleSheet.create({
         alignSelf: 'center',
         height: 43,
         marginBottom: 30,
-        marginTop: 30,
+        marginTop: 20,
     },
     buttonTextSpec: {
         fontSize: 20,
@@ -44,4 +44,9 @@ export default StyleSheet.create({
         marginTop: 10,
         color: 'white',
     },
+    centerLoading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    }
 });
