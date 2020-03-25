@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import styles from '../styles/card.style.js';
 import TEXT from '../constants/en_US';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -7,13 +7,17 @@ Icon.loadFont(); // Load the font
 import { Item } from 'native-base';
 import Button from '../directives/Button';
 const verifyChangeIcon = '../styles/assets/verified.png';
-import Https from '../services/Https';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { userLogin } from '../actions/userActions';
 
 class CardWithField extends Component {
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {
+            email: '',
+            password: '',
+        };
     };
 
     // Forget password text view
@@ -22,6 +26,10 @@ class CardWithField extends Component {
             <Text style={styles.forgetPasswordSpec}>{TEXT.LOGIN.FORGOT_PASS}</Text>
         </TouchableOpacity>
     );
+
+    onChangeText = (name, text) => {
+        this.setState({[name] : text});
+    };
 
     // Field input list generators
     fieldInputListGenerator = (items) => {
@@ -33,8 +41,8 @@ class CardWithField extends Component {
                     <Item style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                         <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
-                            onChangeText={(text) => currentItem.data = text}
-                            secureTextEntry={currentItem.icon == "lock"}
+                            onChangeText={text => this.onChangeText(currentItem.name, text)}
+                            secureTextEntry={currentItem.icon == 'lock'}
                         />
                     </Item>
                 );
@@ -44,8 +52,8 @@ class CardWithField extends Component {
                 <Item style={styles.inputItemSpec}>
                     <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                     <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
-                        onChangeText={(text) => currentItem.data = text}
-                        secureTextEntry={currentItem.icon == "lock"}
+                        onChangeText={text => this.onChangeText(currentItem.name, text)}
+                        secureTextEntry={currentItem.icon == 'lock'}
                     />
                 </Item>
             );
@@ -64,25 +72,10 @@ class CardWithField extends Component {
         );
     };
 
-    loginLogic = async () => {
-        var email = "";
-        var password = ""
-        fields.login.forEach(field => {
-            if (field.text == "GT Email") {
-                email = field.data;
-            } else {
-                password = field.data
-            }
-        })
-        var response = await Https.POST("account/verify", {
-            email: email,
-            password: password
-        })
-        if (response["data"].length > 0) {
-            const account = response["data"][0]
-            await AsyncStorage.setItem('account', JSON.stringify(account));
-            return this.props.navigation.navigate("DashboardPage");
-        }
+    loginLogic = () => {
+        const { navigation } = this.props;
+        const { email, password } = this.state;
+        this.props.userLogin(email, password, navigation);
     }
 
     welcomeViewCard = () => {
@@ -195,8 +188,8 @@ class CardWithField extends Component {
 // constant field inputs metadata
 const fields = {
     'login': [
-        {icon: 'email', text: TEXT.LOGIN.EMAIL, data: ""},
-        {icon: 'lock', text: TEXT.LOGIN.PASSWORD, data: ""}
+        {icon: 'email', text: TEXT.LOGIN.EMAIL, name: 'email'},
+        {icon: 'lock', text: TEXT.LOGIN.PASSWORD, name: 'password'}
     ],
     "sign_up": [
         {icon: 'email', text: TEXT.SIGN_UP.EMAIL},
@@ -219,4 +212,16 @@ const fields = {
     ]
 };
 
-export default withNavigation(CardWithField);
+// Get new item from state
+const mapStateToProps = state => {
+    return ({
+        users: state.users.items
+    });
+};
+
+
+const mapDispatchToProps = {
+    userLogin,
+};
+
+export default connect(null, mapDispatchToProps) (withNavigation(CardWithField));

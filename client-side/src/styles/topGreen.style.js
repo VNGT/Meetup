@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Dimensions from '../services/Dimensions';
 
 const robinGreenColor = '#21CD99';
 export default StyleSheet.create({

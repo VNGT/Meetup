@@ -10,7 +10,7 @@ class Signup extends Component {
 
     // Disable navigation header
     static navigationOptions = {
-        header: null
+        headerShown: false
     };
 
     constructor(props) {

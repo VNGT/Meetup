@@ -23,7 +23,7 @@ const RootStack = createStackNavigator(
 		ProfilePage: Profile
 	},
 	{
-		initialRouteName: 'WelcomePage'
+		initialRouteName: 'LoginPage'
 	}
 );
 
