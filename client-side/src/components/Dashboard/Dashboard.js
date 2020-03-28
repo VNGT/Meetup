@@ -6,6 +6,8 @@ import styles from './Dashboard.style.js';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Https from '../../services/Https';
 import NavigationFooter from '../../directives/NavigationFooter.js';
+import { ActivityIndicator } from 'react-native-paper';
+
 Icon.loadFont();
 
 class Dashboard extends Component {
@@ -26,20 +28,28 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             events: [],
+            loading: false
         };
     }
 
     componentWillMount = async () => {
-        this.setState({ events: [] });
+        // Reset events list
+        this.setState({events: [], loading: true});
+
         const account = JSON.parse(await AsyncStorage.getItem('account'));
-        console.log('ACCOUNTTTT:        ', account);
-        account['events'].forEach(e => {
-            Https.GET('event/' + e).then(res => {
-                this.setState({
-                    events: this.state.events.concat([res.data.data])
-                })
+        console.log('ACCOUNT INFO: ', account);
+
+        // Collect events list
+        const { events } = account;
+        if (events) {
+            events.forEach(e => {
+                Https.GET(`event/${e}`)
+                .then(res => res.data.data)
+                .then(data => this.setState({events: this.state.events.concat([data]), loading: false}));
             });
-        });
+        } else {
+            this.setState({loading: false});
+        }
         this.props.navigation.addListener('willFocus', this.load)
     };
 
@@ -70,7 +80,7 @@ class Dashboard extends Component {
                             </View>
                             <View style={styles.rightSide}>
 								<TouchableOpacity onPress={()=>this.deleteEvent(event)}>
-									<Icon name="remove-circle-outline" size={30} color="#21CD99"/>
+									<Icon name='remove-circle-outline' size={30} color='#21CD99'/>
 								</TouchableOpacity>
 							</View>
                         </View>
@@ -80,39 +90,41 @@ class Dashboard extends Component {
             });
             return eventList;
         }
-
         return null;
     };
 
+    // Delete Event On Press
     deleteEvent = async (event) => {
-        var events = this.state.events.filter(function(item) { return item.id != event.id; }); 
+        const events = this.state.events.filter(item => item.id != event.id);
         this.setState({events : events});
-        const account = JSON.parse(await AsyncStorage.getItem("account"));
-        account.events = account["events"].filter(item => item !== event.id)
-        await Https.PUT("account/" + account.id, {account} )
-        await AsyncStorage.setItem("account", JSON.stringify(account))
+        const account = JSON.parse(await AsyncStorage.getItem('account'));
+        account.events = account['events'].filter(item => item !== event.id);
+        await AsyncStorage.setItem('account', JSON.stringify(account));
+        await Https.PUT(`account/${account.id}`, {account});
 	};
 
     DisplayEvents = () => {
+        const { loading, events } = this.state;
         return (
-            <ScrollView>
-                {this.EventDetailView(this.state.events)}
-            </ScrollView>
+            <View style={styles.dataView}>
+                <ScrollView>
+                    {loading &&
+                        <View>
+                            <ActivityIndicator style={{marginTop: '10%'}} animating={true} color={'#21CD99'} size={40} />
+                            <Text style={styles.loadingText}>Loading...</Text>
+                        </View>
+                    }
+                    {!loading &&this.EventDetailView(this.state.events)}
+                    {(!loading && events.length === 0) && <Text style={styles.noDataText}>No data found</Text>}
+                </ScrollView>
+            </View>
         );
     };
-
-    DataViewRender = () => (
-        <View>
-            <View style={styles.dataView}>
-                <this.DisplayEvents />
-            </View>
-        </View>
-    );
 
     render() {
         return (
             <View style={styles.safeAreaBottom}>
-                <this.DataViewRender/>
+                <this.DisplayEvents/>
                 <NavigationFooter />
             </View>
         );

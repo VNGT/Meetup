@@ -6,20 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 Icon.loadFont();
 
 class NavigationFooter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  };
-    }
-
-    moveToDashboard = () => this.props.navigation.navigate('DashboardPage');
-
-    moveToSearch = () => this.props.navigation.navigate('SearchPage');
-
-    moveToNotification = () => {
-        // TODO:
-    };
-
-    moveToProfile = () => this.props.navigation.navigate('ProfilePage');
 
     createEvent = () => {
         // TODO:
@@ -36,19 +22,20 @@ class NavigationFooter extends Component {
     };
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View style={[styles.navFooterView, styles.stickAtBottom]}>
-                <TouchableOpacity onPress={this.moveToDashboard}>
+                <TouchableOpacity onPress={()=>navigate('DashboardPage')}>
                     <Icon style={styles.iconSpecL} name='dashboard' />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.moveToSearch}>
+                <TouchableOpacity onPress={()=>navigate('SearchPage')}>
                     <Icon style={styles.iconSpecL} name='search' />
                 </TouchableOpacity>
                 <this.floatButton />
-                <TouchableOpacity onPress={this.moveToDashboard}>
+                <TouchableOpacity onPress={()=>navigate('DashboardPage')}>
                     <Icon style={styles.iconSpecR} name='notifications-none' />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.moveToProfile}>
+                <TouchableOpacity onPress={()=>navigate('ProfilePage')}>
                     <Icon style={styles.iconSpecL} name='perm-identity' />
                 </TouchableOpacity>
             </View>

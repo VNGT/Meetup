@@ -63,7 +63,6 @@ exports.deleteAccountById = (async (event) => {
 	return error({message: 'Can not find ID'});
 });
 
-
 exports.updateAccountById = (async (req) => {
 	const { body } = req, { acctId } = pathParameters;
 	const rowEffected = await accountReq.put(body, acctId);
@@ -85,6 +84,6 @@ exports.createAccount = (async (event) => {
 	const object = Object.assign({}, extraParams, JSON.parse(body));
 	const newAccount = new Account(object);
 	const addNewStatus = await accountReq.post(newAccount, acctId);
-	if (addNewStatus) { return ok({message: 'New Account created'}); }
+	if (addNewStatus) { return ok(newAccount); }
 	return error({ message: 'User Email already exist' });
 });

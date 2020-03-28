@@ -1,7 +1,6 @@
 import axios from 'react-native-axios';
 const baseURL = 'https://u1j72jxymf.execute-api.us-east-1.amazonaws.com/dev/v1/';
-// const baseURL = "http://localhost:3000/v1/"
-const querystring = require('querystring');
+// const baseURL = 'http://localhost:3000/v1/';
 
 exports.GET = (path) => {
     return new Promise(resolve => {
@@ -50,22 +49,10 @@ exports.DELETE = (path, id) => {
 
 };
 
-// static post = (url, data) => {
-//     return new Promise((resolve) => {
-//         fetch('https://hasagi-test.herokuapp.com' + url, {
-//             method: 'POST',
-//             headers: {
-//                 Accept: 'application/json',
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(data),
-//         }).then((response) => response.json())
-//             .then((res) => resolve({
-//                 success: true,
-//                 body: res 
-//             })).catch((err) => resolve({
-//                 success: false,
-//                 body: err
-//             }));
-//     });
-// }
+exports.GETAVATAR = (fullName) => {
+    return new Promise(resolve => {
+        axios.get(`https://ui-avatars.com/api/name=${fullName}?background=0D8ABC&color=fff`)
+        .then(response => resolve(response))
+        .catch(err => resolve(err));
+    });
+};

@@ -24,19 +24,23 @@ class CardWithField extends Component {
 
     // EventFire dectect when keyboard onChange
     onChangeText = (name, text) => {
-        this.setState({[name] : text});
+        this.setState({[name] : text}, () => {
+            console.log(name, text);
+        });
     };
 
     // Field input list generators
-    fieldInputListGenerator = (items) => {
+    fieldInputListGenerator = (items, clientData = {}) => {
         let lists = [];
         for (let i = 0; i < items.length; i++) {
             const currentItem = items[i];
+            const textValue = this.decideValueForTextInput(currentItem.name, clientData);
             if (i <= 0) {
                 lists.push(
                     <Item key={i} style={[styles.inputItemSpec, {marginTop: 35}]}>
                         <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                         <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
+                            value={textValue}
                             onChangeText={text => this.onChangeText(currentItem.name, text)}
                             secureTextEntry={currentItem.icon == 'lock'}
                         />
@@ -48,6 +52,7 @@ class CardWithField extends Component {
                 <Item key={i} style={styles.inputItemSpec}>
                     <Icon style={styles.fieldIcon} name={currentItem.icon}/>
                     <TextInput style={styles.textInputSpec} placeholder={currentItem.text}
+                        value={textValue}
                         onChangeText={text => this.onChangeText(currentItem.name, text)}
                         secureTextEntry={currentItem.icon == 'lock'}
                     />
@@ -55,6 +60,20 @@ class CardWithField extends Component {
             );
         }
         return lists;
+    };
+
+    decideValueForTextInput = (name, userData) => {
+        const { firstname, lastname, email, major } = userData;
+        switch (name) {
+            case 'firstname':
+                return firstname;
+            case 'lastname':
+                return lastname;
+            case 'email':
+                return email;
+            default:
+                return major;
+        }
     };
 
     // Login Page View
@@ -111,16 +130,16 @@ class CardWithField extends Component {
 
         // Get out first and last name
         const splitName = fullName.split(' ');
-        const firstName = splitName[0], lastName = splitName[1];
+        const firstname = splitName[0], lastname = splitName[1];
 
-        userSignup(email, firstName, lastName, password, navigation);
+        userSignup(email, firstname, lastname, password, navigation);
     };
 
     profileDetailsView = (lists) => {
         return (
             <View>
-                {this.fieldInputListGenerator(lists)}
-                {this.whichButton(0, TEXT.PROFILE.BUTTON, 'saveData')}
+                {this.fieldInputListGenerator(lists, this.props.userData)}
+                {/*this.whichButton(0, TEXT.PROFILE.BUTTON, 'saveData')*/}
             </View>
         );
     };
@@ -214,25 +233,27 @@ const fields = {
         {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS, name: 'repeatPassword'}
     ],
     'profile_details': [
-        {text: TEXT.PROFILE.FIRST_NAME, value: 'Chau'},
-        {text: TEXT.PROFILE.LAST_NAME},
-        {text: TEXT.PROFILE.EMAIL},
-        {text: TEXT.PROFILE.MAJOR},
+        {icon: 'person', text: TEXT.PROFILE.FIRST_NAME, name: 'firstname'},
+        {icon: 'person', text: TEXT.PROFILE.LAST_NAME, name: 'lastname'},
+        {icon: 'email', text: TEXT.PROFILE.EMAIL, name: 'email'},
+        {icon: 'person', text: TEXT.PROFILE.MAJOR, name: 'major'},
     ],
     'reset_pass': [
-        {icon: 'email', text: TEXT.FORGET_PASS.EMAIL}
+        {icon: 'email', text: TEXT.FORGET_PASS.EMAIL, name: 'email'}
     ],
     'enter_pass': [
-        {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD},
-        {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS}
+        {icon: 'lock', text: TEXT.SIGN_UP.PASSWORD, name: 'password'},
+        {icon: 'lock', text: TEXT.SIGN_UP.REPEAT_PASS, name: 'repeatPassword'}
     ]
 };
 
 // Get new item from state
-const mapStateToProps = state => ({
-    errorMessage: state.userReducer.errorMessage,
-    loginError: state.userReducer.loginError
-});
+const mapStateToProps = state => {
+    return {
+        errorMessage: state.userReducer.errorMessage,
+        loginError: state.userReducer.loginError
+    };
+};
 
 const mapDispatchToProps = {
     userLogin,

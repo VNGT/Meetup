@@ -5,7 +5,8 @@ import styles from './Profile.style.js';
 import NavigationFooter from '../../directives/NavigationFooter.js';
 import ProfileHeader from './ProfileHeader';
 import CardWithField from '../../directives/CardWithField';
-const profileImg = '../../styles/assets/profileTemplate.png';
+import AsyncStorage from '@react-native-community/async-storage';
+import Https from '../../services/Https';
 
 class Profile extends Component {
 
@@ -13,23 +14,22 @@ class Profile extends Component {
         header: null
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            fullName: "Chau Phan",
-            email: "chauphan@gatech.edu",
-            profileImage: require(profileImg),
-            firstName: "Chau",
-            lastName: "Phan",
-            major: "CS",
-            events: []
-        };
-    }
-
-    componentDidMount = () => {
-        //TODO: get user
+    state = {
+        fullName: null,
+        email: null,
+        profileImage: '',
+        firstname: null,
+        lastname: null,
+        major: 'CS', // leave it for now
     };
 
+    componentDidMount = async() => {
+        const account = JSON.parse(await AsyncStorage.getItem('account'));
+        const { firstname, lastname, email } = account;
+        const fullName = `${firstname} ${lastname}`;
+        const profileAvatar = await Https.GETAVATAR(fullName);
+        this.setState({firstname, lastname, email, fullName, profileImage: profileAvatar.config.url});
+    };
 
     render() {
         return (
@@ -38,7 +38,7 @@ class Profile extends Component {
                     height={400}
                     userData={this.state}
                 />
-                <CardWithField setCard={7} />
+                <CardWithField setCard={7} userData={this.state} />
                 <NavigationFooter />
             </View>
         );

@@ -9,24 +9,20 @@ class ProfileHeader extends Component {
 
     // Show page header view
     pageHeaderView = () => {
-        const { email, profileImage, firstName, lastName } = this.props.userData;
+        const { email, profileImage, fullName } = this.props.userData;
         return (
             <View style={styles.headerView}>
                 <TouchableOpacity style={styles.logoutButton} onPress={async()=>this.logoutLogic()}>
                     <Icon name={'exit-to-app'} size={30} />
                 </TouchableOpacity>
-                <Image style={styles.profileImage} source={profileImage} />
-                <Text style={styles.fullName}>{firstName} {lastName}</Text>
+                <Image style={styles.profileImage} source={{uri: profileImage}} />
+                <Text style={styles.fullName}>{fullName}</Text>
                 <Text style={styles.email}>{email}</Text>
             </View>
         );
     };
 
-    logoutLogic = async () => {
-        const { navigation } = this.props;
-        await AsyncStorage.clear();
-        navigation.navigate('WelcomePage');
-    };
+    logoutLogic = () => AsyncStorage.clear().then(_ => this.props.navigation.navigate('WelcomePage'));
 
     render () {
         const { height } = this.props;

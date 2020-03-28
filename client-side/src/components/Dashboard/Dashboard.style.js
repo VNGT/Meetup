@@ -55,4 +55,14 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
+    loadingText: {
+        textAlign: 'center',
+        marginTop: '6%'
+    },
+    noDataText: {
+        textAlign: 'center',
+        marginTop: '6%',
+        fontSize: 30,
+        fontWeight: '100'
+    }
 });

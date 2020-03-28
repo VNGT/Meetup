@@ -30,10 +30,10 @@
         "SIGN_IN": " Sign in"
     },
     "PROFILE": {
-        "EMAIL": "Email:",
-        "LAST_NAME": "Last Name:",
-        "FIRST_NAME": "First Name:",
-        "MAJOR": "Major:",
+        "EMAIL": "Email",
+        "LAST_NAME": "Last Name",
+        "FIRST_NAME": "First Name",
+        "MAJOR": "Major",
         "BUTTON": "SAVE"
     },
     "FORGET_PASS": {
