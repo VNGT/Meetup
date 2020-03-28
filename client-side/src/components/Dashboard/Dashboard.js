@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import React, { Component, useState, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { withNavigation } from 'react-navigation';
 import styles from './Dashboard.style.js';
@@ -54,6 +54,7 @@ class Dashboard extends Component {
     };
 
     load = () => {
+        console.log('refreshing');
         this.componentWillMount();
     }
 
@@ -101,13 +102,27 @@ class Dashboard extends Component {
         account.events = account['events'].filter(item => item !== event.id);
         await AsyncStorage.setItem('account', JSON.stringify(account));
         await Https.PUT(`account/${account.id}`, {account});
-	};
+    };
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        })
+    };
 
     DisplayEvents = () => {
         const { loading, events } = this.state;
+        const [refreshing, setRefreshing] = useState(false);
+
+        const onRefresh = useCallback(() => {
+            setRefreshing(true);
+            this.load();
+            this.wait(2000).then(() => setRefreshing(false));
+        }, [refreshing]);
+
         return (
             <View style={styles.dataView}>
-                <ScrollView>
+                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     {loading &&
                         <View>
                             <ActivityIndicator style={{marginTop: '10%'}} animating={true} color={'#21CD99'} size={40} />
