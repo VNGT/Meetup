@@ -24,9 +24,7 @@ class CardWithField extends Component {
 
     // EventFire dectect when keyboard onChange
     onChangeText = (name, text) => {
-        this.setState({[name] : text}, () => {
-            console.log(name, text);
-        });
+        this.setState({[name] : text});
     };
 
     // Field input list generators
