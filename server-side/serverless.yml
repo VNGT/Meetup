@@ -74,7 +74,7 @@ functions:
     events:
       - http: delete v1/account/{acctId}
   update_account_by_id:
-    handler: src/controllers/account.controller.updateAccountById
+    handler: src/controllers/account.controller.updateAccountInfoById
     events:
       - http: put v1/account/{acctId}
   create_account:
@@ -89,6 +89,10 @@ functions:
     handler: src/controllers/account.controller.addEventToAccount
     events:
       - http: post v1/account/addEvent
+  delete_event_from_account:
+    handler: src/controllers/account.controller.deleteAccountEventById
+    events:
+      - http: put v1/account/deleteEvent/{accId}
 
   # Event Function
   get_event_by_id:

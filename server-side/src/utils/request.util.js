@@ -23,7 +23,6 @@ class RequestCall {
 		const updateExpression = this._createUpdateExpression(object);
 		const params = this._createParamObject({
 			Key: {id},
-			Item: object,
 			UpdateExpression: updateExpression[0],
 			ExpressionAttributeValues: updateExpression[1]
 		});
@@ -62,10 +61,10 @@ class RequestCall {
 	}
 
 	_createUpdateExpression(object) {
-		let updateExpression = 'set ', attributeObject = {};
-		for (var key in object) {
+		let updateExpression = 'SET ', attributeObject = {};
+		for (var key of Object.keys(object)) {
 			const currentVal = object[key];
-			if (typeof currentVal !== 'object') {
+			if (typeof(currentVal) != "object" && key != "id") {
 				updateExpression += `${key} = :${key},`;
 				attributeObject[`:${key}`] = currentVal;
 			}

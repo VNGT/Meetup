@@ -13,8 +13,8 @@ const accountReq = new RequestCall(doclient, process.env.ACCOUNTS_TABLE);
 const ok = statusCode.withStatusCode(200, JSON.stringify);
 const error = statusCode.withStatusCode(500, JSON.stringify);
 
-exports.getAccountById = (async (event) => {
-	const { acctId } = event.pathParameters;
+exports.getAccountById = (async (req) => {
+	const { acctId } = req.pathParameters;
 	const data = await accountReq.get(acctId);
 	if (data === undefined || !data) {
 		return error({message: 'Can not find ID'});
@@ -24,7 +24,6 @@ exports.getAccountById = (async (event) => {
 
 exports.verifyAccount = (async (req) => {
 	const { body } = req;
-	console.log(body)
 	const param = {
 		TableName: process.env.ACCOUNTS_TABLE,
 		ExpressionAttributeValues: {
@@ -56,16 +55,20 @@ exports.addEventToAccount = ( async (req) => {
 	return ok("okay")
 });
 
-exports.deleteAccountById = (async (event) => {
-	const { acctId } = event.pathParameters;
+exports.deleteAccountById = (async (req) => {
+	const { acctId } = req.pathParameters;
 	const idDelete = await accountReq.delete(acctId);
 	if (idDelete) { return ok(idDelete); }
 	return error({message: 'Can not find ID'});
 });
 
-exports.updateAccountById = (async (req) => {
-	const { body } = req, { acctId } = pathParameters;
-	const rowEffected = await accountReq.put(body, acctId);
+exports.updateAccountInfoById = (async (req) => {
+	const { body } = req, { acctId } = req.pathParameters;
+	let data = JSON.parse(body);
+	if (data["account"]) {
+		data = data.account
+	}
+	const rowEffected = await accountReq.put(data, acctId);
 	if (rowEffected === undefined) {
 		return error({message: 'Can not find ID'});
 	} else if (rowEffected) {
@@ -73,6 +76,34 @@ exports.updateAccountById = (async (req) => {
 	}
 	return error({message: 'Error occur while updating data'});
 });
+
+exports.deleteAccountEventById = (async (req) => {
+	const { body } = req, { accId } = req.pathParameters;
+	const account = JSON.parse(body)["account"];
+	const originalData = await accountReq.get(accId);
+	let index = -1;
+	for (var i in account["events"]) {
+		if (account["events"][i] != originalData["events"][i]) {
+			index = i;
+			break;
+		}
+	}
+	if (index == -1) {
+		index = account["events"].length
+	}
+	await doclient.update({
+		TableName: process.env.ACCOUNTS_TABLE,
+		Key: {
+			"id": accId
+		},
+		UpdateExpression : `REMOVE events[${index}]`
+	}, (err, res) => {
+		console.log(res)
+		return res;
+	}).promise();
+	return ok("okay")
+});
+
 
 exports.createAccount = (async (event) => {
 	const { body } = event;

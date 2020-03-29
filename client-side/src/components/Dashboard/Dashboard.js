@@ -101,7 +101,8 @@ class Dashboard extends Component {
         const account = JSON.parse(await AsyncStorage.getItem('account'));
         account.events = account['events'].filter(item => item !== event.id);
         await AsyncStorage.setItem('account', JSON.stringify(account));
-        await Https.PUT(`account/${account.id}`, {account});
+        await Https.PUT(`account/deleteEvent/${account.id}`, {account});
+        this.componentWillMount();
     };
 
     wait = (timeout) => {
