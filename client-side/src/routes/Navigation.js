@@ -9,6 +9,8 @@ import PasswordVerified from '../components/ResetPassword/ResetVerify';
 import Dashboard from '../components/Dashboard';
 import Search from '../components/Search';
 import Profile from '../components/Profile';
+import SearchDetail from '../components/SearchDetail';
+import EventDetail from '../components/EventDetail';
 import { fromRight, fadeIn } from 'react-navigation-transitions';
 
 // const handleCustomTransition = ({ scenes }) => {
@@ -39,7 +41,9 @@ const RootStack = createStackNavigator(
 		PasswordVerifyPage: PasswordVerified,
 		DashboardPage: Dashboard,
 		SearchPage: Search,
-		ProfilePage: Profile
+		ProfilePage: Profile,
+		SearchDetailPage: SearchDetail,
+		EventDetailPage: EventDetail,
 	},
 	{
 		initialRouteName: 'WelcomePage',
