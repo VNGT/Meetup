@@ -136,7 +136,7 @@ export default class CreateEvent extends Component {
             }
         }
         var response = await POST("event", event);
-        console.log(response)
+        this.setState({_hideDialog: true});
     };
 
     render() {

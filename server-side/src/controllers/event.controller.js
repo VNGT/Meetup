@@ -15,6 +15,18 @@ exports.createEvent = (async(event) => {
 	const id = shortid.generate()
 	const object = Object.assign({}, {id: id}, JSON.parse(body))
 	const addNewStatus = await eventReq.post(object, id)
+	const hostId = JSON.parse(body)["host"];
+
+	const eventUpdate = await doclient.update({
+		TableName: process.env.ACCOUNTS_TABLE,
+		Key: {
+			"id": hostId
+		},
+		UpdateExpression: "SET events = list_append(events, :i)",
+		ExpressionAttributeValues: {
+			':i': [id],
+		}
+	}).promise();
 	if (addNewStatus) { return ok({message: 'New Event created'}); }
 	return error({ message: 'Event already exist' });
 });

@@ -35,7 +35,6 @@ class Dashboard extends Component {
     componentWillMount = async () => {
         // Reset events list
         this.setState({events: [], loading: true});
-
         const account = JSON.parse(await AsyncStorage.getItem('account'));
         console.log('ACCOUNT INFO: ', account);
 
