@@ -24,49 +24,48 @@ class Dashboard extends Component {
         headerLeft: null
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            events: [],
-            loading: false
-        };
-    }
+    state = {
+        events: [],
+        loading: false,
+    };
 
-    componentWillMount = async () => {
-        // Reset events list
-        this.setState({events: [], loading: true});
+    // Lifecycle
+    componentWillMount = () => {
+        this.setState({loading: true}, _ => setTimeout(_ => this.collectingEventData(), 2000));
+    };
+
+    // Collect events list
+    collectingEventData = async () => {
         const account = JSON.parse(await AsyncStorage.getItem('account'));
-        console.log('ACCOUNT INFO: ', account);
-
-        // Collect events list
         const { events } = account;
-        if (events.length > 0) {
-            events.forEach(e => {
-                Https.GET(`event/${e}`)
-                .then(res => res.data.data)
-                .then(data => this.setState({events: this.state.events.concat([data]), loading: false}));
-            });
-        } else {
-            this.setState({loading: false});
-        }
-        this.props.navigation.addListener('willFocus', this.load)
+        console.log('ACCOUNT INFO: ', account);
+        console.log('Collecting data');
+
+        // Reset event list
+        this.setState({events: []}, _ => {
+            if (events !== undefined) {
+                events.forEach(e => {
+                    Https.GET(`event/${e}`)
+                    .then(res => res.data.data)
+                    .then(data => this.setState({events: this.state.events.concat([data])}));
+                });
+            }
+            this.setState({loading: false})
+        });
     };
 
-    load = () => {
-        console.log('refreshing');
-        this.componentWillMount();
-    }
-
-    routeToEventDetail = () => {
-        console.log('Here');
+    routeToEventDetail = (event) => {
+        const { navigation } = this.props;
+        navigation.navigate('EventDetailPage', { eventDetail: event});
     };
 
-    EventDetailView = (events) => {
+    EventDetailView = () => {
+        const { events } = this.state;
         let eventList = [];
         if (events.length > 0) {
             events.forEach((event, index) => {
                 eventList.push(
-                    <TouchableOpacity key={index} onPress={()=>this.routeToEventDetail}>
+                    <TouchableOpacity key={index} onPress={()=>this.routeToEventDetail(event)}>
                         <View style={styles.eventDetailView}>
                             <View style={styles.leftSide}>
                                 <Text style={styles.bigTitle}>{event.major}</Text>
@@ -95,31 +94,34 @@ class Dashboard extends Component {
     };
 
     // Delete Event On Press
-    deleteEvent = async (event) => {
+    deleteEvent = (event) => {
         const events = this.state.events.filter(item => item.id != event.id);
-        this.setState({events : events});
-        const account = JSON.parse(await AsyncStorage.getItem('account'));
-        account.events = account['events'].filter(item => item !== event.id);
-        await AsyncStorage.setItem('account', JSON.stringify(account));
-        await Https.PUT(`account/deleteEvent/${account.id}`, {account});
-        this.componentWillMount();
-    };
-
-    wait = (timeout) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        })
+        this.setState({events : events}, async _ => {
+            const account = JSON.parse(await AsyncStorage.getItem('account'));
+            account.events = account['events'].filter(item => item !== event.id);
+            await AsyncStorage.setItem('account', JSON.stringify(account));
+            await Https.PUT(`account/deleteEvent/${account.id}`, {account});
+        });
     };
 
     DisplayEvents = () => {
         const { loading, events } = this.state;
         const [refreshing, setRefreshing] = useState(false);
 
+        // onRefresh control
         const onRefresh = useCallback(() => {
             setRefreshing(true);
-            this.load();
-            this.wait(2000).then(() => setRefreshing(false));
+            this.collectingEventData();
+            setTimeout(() => setRefreshing(false), 2000);
         }, [refreshing]);
+
+        // Decide which view to render
+        const WhichViewToDisplay = () => {
+            if (!loading && events.length === 0 && !refreshing) {
+                return (<Text style={styles.noDataText}>No event found</Text>);
+            }
+            return this.EventDetailView();
+        };
 
         return (
             <View style={styles.dataView}>
@@ -130,8 +132,7 @@ class Dashboard extends Component {
                             <Text style={styles.loadingText}>Loading...</Text>
                         </View>
                     }
-                    {!loading &&this.EventDetailView(this.state.events)}
-                    {(!loading && events.length === 0) && <Text style={styles.noDataText}>No event found</Text>}
+                    <WhichViewToDisplay />
                 </ScrollView>
             </View>
         );

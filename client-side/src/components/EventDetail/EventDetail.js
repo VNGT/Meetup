@@ -15,6 +15,11 @@ class EventDetail extends Component {
 
     state = {
         join: false,
+        eventDetail: {}
+    };
+
+    componentWillMount = () => {
+        this.setState({eventDetail: this.props.navigation.state.params.eventDetail});
     };
 
     toggleOnPress = () => {
@@ -26,6 +31,7 @@ class EventDetail extends Component {
     };
 
     EventContentView = () => {
+        const { location, time } = this.state.eventDetail;
         return (
             <View style={styles.contentView}>
                 <View style={{flexDirection: 'row'}}>
@@ -33,11 +39,11 @@ class EventDetail extends Component {
                 </View>
                 <Text style={styles.subContent}>TA</Text>
                 <View style={{flexDirection: 'row', marginTop: '5%'}}>
-                    <Icon style={styles.icon} name={'add-alarm'} /><Text style={styles.contentText}>January 22, 2020</Text>
+                    <Icon style={styles.icon} name={'add-alarm'} /><Text style={styles.contentText}>{time.date}</Text>
                 </View>
-                <Text style={styles.subContent}>19:00 PM</Text>
+                <Text style={styles.subContent}>{time.time}</Text>
                 <View style={{flexDirection: 'row', marginTop: '5%'}}>
-                    <Icon style={styles.icon} name={'add-location'} /><Text style={styles.contentText}>Clough 144</Text>
+                    <Icon style={styles.icon} name={'add-location'} /><Text style={styles.contentText}>{'Culc'}</Text>
                 </View>
                 <Text style={styles.subContent}>266 4th St NW, Atlanta, GA 30313</Text>
             </View>
@@ -45,15 +51,16 @@ class EventDetail extends Component {
     };
 
     EventBottomContent = () => {
+        const { description, members } = this.state.eventDetail;
         return (
             <View style={styles.contentView}>
-                <Text style={{fontSize: 25, fontWeight: 'bold'}}>{`${3} people are going`}</Text>
+                <Text style={{fontSize: 25, fontWeight: 'bold'}}>{`${members.length} people are going`}</Text>
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Image style={styles.circleImg} source={Profile}/>
-                    <View style={[styles.circleImg, {backgroundColor: '#C3C3C3', marginLeft: 10}]}><Text style={{fontSize: 20, marginTop: 10, marginLeft: 8}}>{`+${2}`}</Text></View>
+                    <View style={[styles.circleImg, {backgroundColor: '#C3C3C3', marginLeft: 10}]}><Text style={{fontSize: 20, marginTop: 10, marginLeft: 8}}>{`+${members.length - 1}`}</Text></View>
                 </View>
                 <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 20}}>Details</Text>
-                <Text style={{fontSize: 20, marginTop: 5, marginBottom: 50}}>{'Group study session to review material for exam 1'}</Text>
+                <Text style={{fontSize: 20, marginTop: 5, marginBottom: 50}}>{description}</Text>
             </View>
         );
     };
@@ -61,6 +68,8 @@ class EventDetail extends Component {
     render() {
         const { join } = this.state;
         const { navigation } = this.props;
+        const { coursenumber, major } = this.state.eventDetail;
+        const eventTitle = `${major} ${coursenumber}`;
         return (
             <SafeAreaView style={{flex: 1}}>
                 <View style={{flexDirection: 'row'}}>
@@ -72,7 +81,7 @@ class EventDetail extends Component {
                 <Image style={{marginTop: 20}} source={StudyPNG} />
                 <ScrollView>
                     <View style={{flexDirection: 'row', marginTop: 20}}>
-                        <Text style={styles.eventTitle}>CS 1331 Exam</Text>
+                        <Text style={styles.eventTitle}>{eventTitle}</Text>
                         <TouchableOpacity onPress={this.toggleOnPress} style={[styles.button, {backgroundColor: (!join) ? 'green' : 'gray'}]}>
                             <Text style={{margin: 8, textAlign: 'center'}}>{(!join) ? 'Join' : 'Leave'}</Text>
                         </TouchableOpacity>
