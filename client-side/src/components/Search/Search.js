@@ -148,7 +148,6 @@ class Search extends Component {
 		account["events"].push(event["id"])
 		var response = await POST("account/addEvent", account)
 		await AsyncStorage.setItem("account", JSON.stringify(account))
-
 	};
 
     DisplaySearchResult = () => {
