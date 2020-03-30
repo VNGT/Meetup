@@ -6,6 +6,8 @@ Icon.loadFont();
 import StudyPNG from '../../styles/assets/study.png';
 import Profile from '../../styles/assets/profileTemplate.png';
 import NavigationFooter from '../../directives/NavigationFooter';
+import AsyncStorage from '@react-native-community/async-storage';
+import Https from '../../services/Https';
 
 class EventDetail extends Component {
 
@@ -14,20 +16,45 @@ class EventDetail extends Component {
     }
 
     state = {
-        join: false,
+        joined: false,
         eventDetail: {}
     };
 
-    componentWillMount = () => {
+    componentWillMount = async () => {
         this.setState({eventDetail: this.props.navigation.state.params.eventDetail});
+        const account = JSON.parse(await AsyncStorage.getItem("account"));
+        if (this.state.eventDetail["members"].includes(account["id"])) {
+            this.setState({joined: true})
+        }
     };
 
     toggleOnPress = () => {
-        this.setState({join: !this.state.join}, () => {
-            const { join } = this.state;
+        this.setState({joined: !this.state.joined}, async () => {
+            const { joined, eventDetail } = this.state;
 
             // TODO: Query update client list
+            if (joined) {
+                await this.addEvent(eventDetail);
+            } else {
+                console.log("Leave")
+                await this.deleteEvent(eventDetail);
+            }
         });
+    };
+
+    addEvent = async (event) => {
+		const account = JSON.parse(await AsyncStorage.getItem("account"));
+		account["events"].push(event["id"])
+		var response = await POST("account/addEvent", account)
+		await AsyncStorage.setItem("account", JSON.stringify(account))
+    };
+    
+    deleteEvent = async (event) => {
+        console.log(event)
+        const account = JSON.parse(await AsyncStorage.getItem('account'));
+        account.events = account['events'].filter(item => item !== event.id);
+        await AsyncStorage.setItem('account', JSON.stringify(account));
+        await Https.PUT(`account/deleteEvent/${account.id}`, {account});
     };
 
     EventContentView = () => {
@@ -37,7 +64,7 @@ class EventDetail extends Component {
                 <View style={{flexDirection: 'row'}}>
                     <Icon style={styles.icon} name={'account-circle'} /><Text style={styles.contentText}>John Doe</Text>
                 </View>
-                <Text style={styles.subContent}>TA</Text>
+                {/* <Text style={styles.subContent}>TA</Text> */}
                 <View style={{flexDirection: 'row', marginTop: '5%'}}>
                     <Icon style={styles.icon} name={'add-alarm'} /><Text style={styles.contentText}>{time.date}</Text>
                 </View>
@@ -45,7 +72,7 @@ class EventDetail extends Component {
                 <View style={{flexDirection: 'row', marginTop: '5%'}}>
                     <Icon style={styles.icon} name={'add-location'} /><Text style={styles.contentText}>{'Culc'}</Text>
                 </View>
-                <Text style={styles.subContent}>266 4th St NW, Atlanta, GA 30313</Text>
+                {/* <Text style={styles.subContent}>266 4th St NW, Atlanta, GA 30313</Text> */}
             </View>
         );
     };
@@ -66,7 +93,7 @@ class EventDetail extends Component {
     };
 
     render() {
-        const { join } = this.state;
+        const { joined } = this.state;
         const { navigation } = this.props;
         const { coursenumber, major } = this.state.eventDetail;
         const eventTitle = `${major} ${coursenumber}`;
@@ -82,8 +109,8 @@ class EventDetail extends Component {
                 <ScrollView>
                     <View style={{flexDirection: 'row', marginTop: 20}}>
                         <Text style={styles.eventTitle}>{eventTitle}</Text>
-                        <TouchableOpacity onPress={this.toggleOnPress} style={[styles.button, {backgroundColor: (!join) ? 'green' : 'gray'}]}>
-                            <Text style={{margin: 8, textAlign: 'center'}}>{(!join) ? 'Join' : 'Leave'}</Text>
+                        <TouchableOpacity onPress={this.toggleOnPress} style={[styles.button, {backgroundColor: (!joined) ? 'green' : 'gray'}]}>
+                            <Text style={{margin: 8, textAlign: 'center'}}>{(!joined) ? 'Join' : 'Leave'}</Text>
                         </TouchableOpacity>
                     </View>
                     <this.EventContentView />

@@ -30,13 +30,15 @@ class Dashboard extends Component {
     };
 
     // Lifecycle
-    componentWillMount = () => {
+    componentWillMount = async () => {
         this.setState({loading: true}, _ => setTimeout(_ => this.collectingEventData(), 2000));
     };
 
     // Collect events list
     collectingEventData = async () => {
-        const account = JSON.parse(await AsyncStorage.getItem('account'));
+        const accountId = JSON.parse(await AsyncStorage.getItem('account'))["id"];
+        const account = (await Https.GET("account/" + accountId))["data"]["data"];
+        AsyncStorage.setItem("account", JSON.stringify(account));
         const { events } = account;
         console.log('ACCOUNT INFO: ', account);
         console.log('Collecting data');
@@ -52,6 +54,7 @@ class Dashboard extends Component {
             }
             this.setState({loading: false})
         });
+        this.props.navigation.addListener('willFocus', this.collectingEventData)
     };
 
     routeToEventDetail = (event) => {
