@@ -109,12 +109,17 @@ class Search extends Component {
 		);
 	}
 
+    routeToEventDetail = (event) => {
+        const { navigation } = this.props;
+        navigation.navigate('EventDetailPage', { eventDetail: event});
+    };
+
 	EventDetailView = (events) => {
         let eventList = [];
         if (events.length > 0) {
-            events.forEach(event => {
+            events.forEach((event, index) => {
                 eventList.push(
-					<View>
+                    <TouchableOpacity key={index} onPress={()=>this.routeToEventDetail(event)}>
                         <View style={styles.eventDetailView}>
                             <View style={styles.leftSide}>
                                 <Text style={styles.bigTitle}>{event.major}</Text>
@@ -134,7 +139,7 @@ class Search extends Component {
 							</View>
                         </View>
                         <View style={styles.breakLine}/>
-					</View>
+					</TouchableOpacity>
                 );
             });
             return eventList;

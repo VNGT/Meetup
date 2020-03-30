@@ -45,7 +45,7 @@ class EventDetail extends Component {
     addEvent = async (event) => {
 		const account = JSON.parse(await AsyncStorage.getItem("account"));
 		account["events"].push(event["id"])
-		var response = await POST("account/addEvent", account)
+		var response = await Https.POST("account/addEvent", account)
 		await AsyncStorage.setItem("account", JSON.stringify(account))
     };
     
