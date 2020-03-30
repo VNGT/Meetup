@@ -1,6 +1,6 @@
 import axios from 'react-native-axios';
-const baseURL = 'https://u1j72jxymf.execute-api.us-east-1.amazonaws.com/dev/v1/';
-// const baseURL = 'http://localhost:3000/v1/';
+// const baseURL = 'https://u1j72jxymf.execute-api.us-east-1.amazonaws.com/dev/v1/';
+const baseURL = 'http://localhost:3000/v1/';
 
 exports.GET = (path) => {
     return new Promise(resolve => {
