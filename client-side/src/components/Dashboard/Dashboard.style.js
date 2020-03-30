@@ -29,6 +29,12 @@ export default StyleSheet.create({
         fontWeight: '300',
         marginTop: 2,
     },
+    smallTitleBold: {
+        fontSize: 12,
+        fontWeight: '300',
+        marginTop: 2,
+        fontWeight: 'bold'
+    },
     breakLine: {
         width: '60%',
         height: '1%',

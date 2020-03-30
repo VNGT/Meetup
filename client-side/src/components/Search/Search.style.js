@@ -41,6 +41,12 @@ export default StyleSheet.create({
 		fontSize: 50,
 		marginLeft: '7%'
 	},
+    smallTitleBold: {
+        fontSize: 12,
+        fontWeight: '300',
+        marginTop: 2,
+        fontWeight: 'bold'
+    },
 	recentSearch: {
 		marginTop: '10%',
 		fontWeight: 'bold',

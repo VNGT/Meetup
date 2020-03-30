@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
+import { POST } from '../../services/Https';
 
 export default class CreateEvent extends Component {
 
     state = {
         title: '',
         major: '',
-        course: '',
+        coursenumber: '',
         time: '',
         date: '',
         location: '',
         size: '',
-        details: ''
+        description: ''
     };
 
     onChangeText = (name, text) => {
-        this.setState({[name]: text}, () => {
-            console.log(name, text);
-        });
+        this.setState({[name]: text});
     };
 
     InformationView = () => {
@@ -45,12 +45,12 @@ export default class CreateEvent extends Component {
                         <View style={styles.typeLine} />
                     </View>
                     <View style={{flex: 6}}>
-                        <Text style={styles.sectionTitle}>Course</Text>
+                        <Text style={styles.sectionTitle}>Course number</Text>
                         <TextInput
                             style={styles.textInput}
                             placeholder={'1331'}
                             value={course}
-                            onChangeText={text=>this.onChangeText('course', text)}
+                            onChangeText={text=>this.onChangeText('coursenumber', text)}
                         />
                         <View style={styles.typeLine} />
                     </View>
@@ -98,13 +98,13 @@ export default class CreateEvent extends Component {
                         <View style={styles.typeLine} />
                     </View>
                 </View>
-                <Text style={[styles.sectionTitle, {marginTop: 20}]}>Details</Text>
+                <Text style={[styles.sectionTitle, {marginTop: 20}]}>Description</Text>
                 <TextInput
                     multiline={true}
                     style={{fontSize: 20, marginTop: 10, width: '95%', height: '25%', borderWidth: 1, borderRadius: 5}}
                     placeholder={'Enter Event Detail'}
                     value={details}
-                    onChangeText={text=>this.onChangeText('details', text)}
+                    onChangeText={text=>this.onChangeText('description', text)}
                 />
                 <View style={{flexDirection: 'row', marginTop: '10%'}}>
                     <TouchableOpacity onPress={this.props._hideDialog} style={{backgroundColor: '#C3C3C3', borderRadius: 25, position: 'absolute', width: 100}}>
@@ -118,8 +118,25 @@ export default class CreateEvent extends Component {
         );
     };
 
-    createNewEvent = () => {
-        // TODO: Create new event
+    createNewEvent = async () => {
+        const hostID = JSON.parse(await AsyncStorage.getItem("account"))["id"]
+        let event = {
+            "host": hostID,
+            "time": {
+                "date": "",
+                "time": ""
+            },
+            members: [hostID]
+        }
+        for (var key of Object.keys(this.state)) {
+            if (key == "time" || key == "date") {
+                event.time[key] = this.state[key];
+            } else {
+                event[key] = this.state[key]
+            }
+        }
+        var response = await POST("event", event);
+        console.log(response)
     };
 
     render() {

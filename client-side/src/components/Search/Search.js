@@ -121,10 +121,11 @@ class Search extends Component {
                                 <Text style={styles.bigTitle}>{event.coursenumber}</Text>
                             </View>
                             <View style={styles.middleSide}>
+								<Text style={styles.smallTitleBold}>{event.title}</Text>
                                 <Text style={styles.smallTitle}>Host by: {event.host}</Text>
                                 <Text style={styles.smallTitle}>{`Time: ${event.time.time} - ${event.time.date}`}</Text>
-                                <Text style={styles.smallTitle}>{`Location: ${event.location.address} ${event.location.city} ${event.location.zip}`}</Text>
-                                <Text style={styles.smallTitle}>Members: {event.members.length}/50</Text>
+                                <Text style={styles.smallTitle}>{`Location: ${event.location}`}</Text>
+                                <Text style={styles.smallTitle}>Members: {event.members.length}/{event.size}</Text>
                             </View>
 							<View style={styles.rightSide}>
 								<TouchableOpacity onPress={()=>this.addEvent(event)}>

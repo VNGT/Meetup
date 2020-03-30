@@ -8,6 +8,8 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
 // Intilize account class request
 const accountReq = new RequestCall(doclient, process.env.ACCOUNTS_TABLE);
+const eventReq = new RequestCall(doclient, process.env.EVENTS_TABLE);
+
 
 // Status Code
 const ok = statusCode.withStatusCode(200, JSON.stringify);
@@ -39,7 +41,11 @@ exports.verifyAccount = (async (req) => {
 exports.addEventToAccount = ( async (req) => {
 	const { body } = req;
 	const account = JSON.parse(body);
-	await doclient.update({
+	if ((new Set(account["events"])).size < account["events"].length) {
+		return ok("fail")
+	}
+	const newEventId = account["events"][account["events"].length - 1]
+	const accountUpdate = await doclient.update({
 		TableName: process.env.ACCOUNTS_TABLE,
 		Key: {
 			"id": account["id"]
@@ -52,6 +58,17 @@ exports.addEventToAccount = ( async (req) => {
 		console.log(res)
 		return res;
 	}).promise();
+	const eventUpdate = await doclient.update({
+		TableName: process.env.EVENTS_TABLE,
+		Key: {
+			"id": newEventId
+		},
+		UpdateExpression: "SET members = list_append(members, :i)",
+		ExpressionAttributeValues: {
+			':i': [account["id"]],
+		}
+	}).promise();
+	console.log(eventUpdate)
 	return ok("okay")
 });
 
@@ -91,6 +108,23 @@ exports.deleteAccountEventById = (async (req) => {
 	if (index == -1) {
 		index = account["events"].length
 	}
+	const eventId = originalData["events"][index];
+	const eventOriginal = await eventReq.get(eventId);
+	let memberIndex = 0;
+	for (var i in eventOriginal["members"]) {
+		if (eventOriginal["members"][i] == accId) {
+			memberIndex = i;
+			break
+		}
+	}
+
+	await doclient.update({
+		TableName: process.env.EVENTS_TABLE,
+		Key: {
+			"id": eventId
+		},
+		UpdateExpression: `REMOVE members[${memberIndex}]`
+	}).promise()
 	await doclient.update({
 		TableName: process.env.ACCOUNTS_TABLE,
 		Key: {

@@ -41,7 +41,7 @@ class Dashboard extends Component {
 
         // Collect events list
         const { events } = account;
-        if (events) {
+        if (events.length > 0) {
             events.forEach(e => {
                 Https.GET(`event/${e}`)
                 .then(res => res.data.data)
@@ -74,10 +74,11 @@ class Dashboard extends Component {
                                 <Text style={styles.bigTitle}>{event.coursenumber}</Text>
                             </View>
                             <View style={styles.middleSide}>
+								<Text style={styles.smallTitleBold}>{event.title}</Text>
                                 <Text style={styles.smallTitle}>Host by: {event.host}</Text>
                                 <Text style={styles.smallTitle}>{`Time: ${event.time.time} - ${event.time.date}`}</Text>
-                                <Text style={styles.smallTitle}>{`Location: ${event.location.address} ${event.location.city} ${event.location.zip}`}</Text>
-                                <Text style={styles.smallTitle}>Members: {event.members.length}/50</Text>
+                                <Text style={styles.smallTitle}>{`Location: ${event.location}`}</Text>
+                                <Text style={styles.smallTitle}>Members: {event.members.length}/{event.size}</Text>
                             </View>
                             <View style={styles.rightSide}>
 								<TouchableOpacity onPress={()=>this.deleteEvent(event)}>
@@ -131,7 +132,7 @@ class Dashboard extends Component {
                         </View>
                     }
                     {!loading &&this.EventDetailView(this.state.events)}
-                    {(!loading && events.length === 0) && <Text style={styles.noDataText}>No data found</Text>}
+                    {(!loading && events.length === 0) && <Text style={styles.noDataText}>No event found</Text>}
                 </ScrollView>
             </View>
         );
