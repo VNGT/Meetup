@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useState } from 'react';
 import { View, FlatList, Text, TextInput, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styles from './Search.style.js';
 import NavigationFooter from '../../directives/NavigationFooter';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { GET, POST } from '../../services/Https';
+import { GET, POST, PUT } from '../../services/Https';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ActivityIndicator } from 'react-native-paper';
 Icon.loadFont();
 
 class Search extends Component {
@@ -18,10 +19,16 @@ class Search extends Component {
 		this.state = {
 			searchQuery: null,
 			allowToSearch: false,
-			searchResults: []
+			searchResults: [],
+			loading: false,
+			account: null
 		};
 
 		this.searchInput = React.createRef();
+	}
+
+	componentDidMount = async () => {
+		this.setState({account: JSON.parse(await AsyncStorage.getItem("account"))});
 	}
 
 	Title = () => <Text style={styles.title}>Search</Text>;
@@ -80,6 +87,7 @@ class Search extends Component {
 	};
 
 	searchQueryLogic = () => {
+		this.setState({loading : true});
 		const { searchQuery } = this.state;
 		var query = searchQuery.replace(" ", "_");
 		GET(`event/search/${query}`).then(res => {
@@ -88,8 +96,10 @@ class Search extends Component {
 			} else {
 				this.setState({ searchResults: res.data.data ? res.data.data : []});
 			}
+			this.setState({ loading : false });
 		}).catch(err => {
 			console.log(err);
+			this.setState({ loading : false });
 		});
 	};
 
@@ -115,9 +125,31 @@ class Search extends Component {
     };
 
 	EventDetailView = (events) => {
-        let eventList = [];
+		const {account} = this.state;
+		let eventList = [];
         if (events.length > 0) {
             events.forEach((event, index) => {
+				// const WhichViewToDisplay = () => {
+				// 	if (!loading && events.length === 0 && !refreshing) {
+				// 		return (<Text style={styles.noDataText}>No event found</Text>);
+				// 	}
+				// 	return this.EventDetailView(this.state.searchResults)
+				// };
+				const EventButton = () => {
+					if (account["events"].includes(event.id)) {
+						return (
+							<TouchableOpacity onPress={()=>this.deleteEvent(event)}>
+								<Icon name="remove-circle-outline" size={30} color="#21CD99"/>
+							</TouchableOpacity>
+						)
+					} else {
+						return (
+							<TouchableOpacity onPress={()=>this.addEvent(event)}>
+								<Icon name="add-circle-outline" size={30} color="#21CD99"/>
+							</TouchableOpacity>
+						)
+					}
+				}
                 eventList.push(
                     <TouchableOpacity key={index} onPress={()=>this.routeToEventDetail(event)}>
                         <View style={styles.eventDetailView}>
@@ -133,9 +165,7 @@ class Search extends Component {
                                 <Text style={styles.smallTitle}>Members: {event.members.length}/{event.size}</Text>
                             </View>
 							<View style={styles.rightSide}>
-								<TouchableOpacity onPress={()=>this.addEvent(event)}>
-									<Icon name="add-circle-outline" size={30} color="#21CD99"/>
-								</TouchableOpacity>
+								<EventButton />
 							</View>
                         </View>
                         <View style={styles.breakLine}/>
@@ -150,20 +180,44 @@ class Search extends Component {
 
 	addEvent = async (event) => {
 		const account = JSON.parse(await AsyncStorage.getItem("account"));
-		account["events"].push(event["id"])
-		var response = await POST("account/addEvent", account)
-		await AsyncStorage.setItem("account", JSON.stringify(account))
+		account["events"].push(event["id"]);
+		var response = await POST("account/addEvent", account);
+		this.setState({account: account})
+		await AsyncStorage.setItem("account", JSON.stringify(account));
 	};
 
+	deleteEvent = async (event) => {
+        const account = JSON.parse(await AsyncStorage.getItem('account'));
+		account.events = account['events'].filter(item => item !== event.id);
+		this.setState({account: account})
+        await AsyncStorage.setItem('account', JSON.stringify(account));
+        await PUT(`account/deleteEvent/${account.id}`, {account});
+    };
+
     DisplaySearchResult = () => {
+		const { loading } = this.state;
+		const events = this.state.searchResults;
+		// const [refreshing, setRefreshing] = useState(false);
+
+		const WhichViewToDisplay = () => {
+            if (!loading && events.length === 0 && !refreshing) {
+                return (<Text style={styles.noDataText}>No event found</Text>);
+            }
+            return this.EventDetailView(this.state.searchResults)
+        };
+
         return (
-			<View>
-				<View style={styles.dataView}>
-					<ScrollView>
-						{this.EventDetailView(this.state.searchResults)}
-					</ScrollView>
-				</View>
-			</View>
+            <View style={styles.dataView}>
+                <ScrollView>
+                    {loading ?
+                        <View>
+                            <ActivityIndicator style={{marginTop: '10%'}} animating={true} color={'#21CD99'} size={40} />
+                            <Text style={styles.loadingText}>Loading...</Text>
+                        </View>
+						:<WhichViewToDisplay />
+                    }
+                </ScrollView>
+            </View>
         );
     };
 

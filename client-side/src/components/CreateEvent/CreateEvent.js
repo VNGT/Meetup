@@ -119,14 +119,16 @@ export default class CreateEvent extends Component {
     };
 
     createNewEvent = async () => {
-        const hostID = JSON.parse(await AsyncStorage.getItem("account"))["id"]
+        const account = JSON.parse(await AsyncStorage.getItem("account"))
+        const hostID = account["id"]
         let event = {
             "host": hostID,
             "time": {
                 "date": "",
                 "time": ""
             },
-            members: [hostID]
+            "eventCreator": account["firstname"] + " " + account["lastname"],
+            "members": [hostID]
         }
         for (var key of Object.keys(this.state)) {
             if (key == "time" || key == "date") {
@@ -136,7 +138,7 @@ export default class CreateEvent extends Component {
             }
         }
         var response = await POST("event", event);
-        this.setState({_hideDialog: true});
+        this.props._hideDialog();
     };
 
     render() {

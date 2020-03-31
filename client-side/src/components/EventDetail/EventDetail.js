@@ -50,7 +50,6 @@ class EventDetail extends Component {
     };
     
     deleteEvent = async (event) => {
-        console.log(event)
         const account = JSON.parse(await AsyncStorage.getItem('account'));
         account.events = account['events'].filter(item => item !== event.id);
         await AsyncStorage.setItem('account', JSON.stringify(account));

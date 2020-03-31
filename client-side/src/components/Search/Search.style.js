@@ -133,6 +133,15 @@ export default StyleSheet.create({
         backgroundColor: 'black',
         alignSelf: 'center',
         opacity: 0.2,
+    },
+    loadingText: {
+        textAlign: 'center',
+        marginTop: '6%'
+    },
+    noDataText: {
+        textAlign: 'center',
+        marginTop: '6%',
+        fontSize: 30,
+        fontWeight: '100'
     }
-
 });
