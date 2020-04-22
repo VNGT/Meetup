@@ -15,7 +15,6 @@ export default StyleSheet.create({
 		width: '75%',
 		backgroundColor: '#D8D8D8',
 		marginLeft: '7%',
-		height: '5%',
 		borderRadius: 5,
 	},
 	colSizeSm: {
@@ -25,7 +24,6 @@ export default StyleSheet.create({
 	},
 	colSizeLg: {
 		width: '78%',
-		marginLeft: 3,
 		justifyContent: 'center',
 	},
 	searchTextSpec: {
