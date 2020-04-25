@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styles from './Profile.style.js';
 import NavigationFooter from '../../directives/NavigationFooter.js';
@@ -35,7 +35,7 @@ class Profile extends Component {
         return (
             <View style={styles.safeAreaBottom}>
                 <ProfileHeader
-                    height={400}
+                    height={Platform.OS === 'ios' ? 400 : 320}
                     userData={this.state}
                 />
                 <CardWithField setCard={7} userData={this.state} />

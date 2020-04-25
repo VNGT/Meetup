@@ -86,7 +86,7 @@ class EventDetail extends Component {
                     <View style={[styles.circleImg, {backgroundColor: '#C3C3C3', marginLeft: 10}]}><Text style={{fontSize: 20, marginTop: 10, marginLeft: 8}}>{`+${members.length - 1}`}</Text></View>
                 </View>
                 <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 20}}>Details</Text>
-                <Text style={{fontSize: 20, marginTop: 5, marginBottom: 100}}>{description}</Text>
+                <Text style={{fontSize: 20, marginTop: 5, marginBottom: 50}}>{description}</Text>
             </View>
         );
     };
@@ -115,9 +115,8 @@ class EventDetail extends Component {
                     <this.EventContentView />
                     <this.EventBottomContent />
                 </ScrollView>
-                <NavigationFooter />
             </SafeAreaView>
-        )
+        );
     };
 };
 

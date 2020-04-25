@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const robinGreenColor = '#21CD99';
 export default StyleSheet.create({
@@ -7,8 +7,8 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
     headerView: {
-        alignItems: "center",
-        marginTop: 20,
+        alignItems: 'center',
+        marginTop: Platform.OS === 'ios' ? 20 : -25,
         marginLeft: 20,
     },
     profileImage: {

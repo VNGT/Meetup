@@ -12,7 +12,7 @@ class ProfileHeader extends Component {
         const { email, profileImage, fullName } = this.props.userData;
         return (
             <View style={styles.headerView}>
-                <TouchableOpacity style={styles.logoutButton} onPress={async()=>this.logoutLogic()}>
+                <TouchableOpacity style={styles.logoutButton} onPress={()=>this.logoutLogic()}>
                     <Icon name={'exit-to-app'} size={30} />
                 </TouchableOpacity>
                 <Image style={styles.profileImage} source={{uri: profileImage}} />
@@ -22,7 +22,7 @@ class ProfileHeader extends Component {
         );
     };
 
-    logoutLogic = () => AsyncStorage.clear().then(_ => this.props.navigation.navigate('WelcomePage'));
+    logoutLogic = _ => AsyncStorage.clear().then(_ => this.props.navigation.navigate('WelcomePage'));
 
     render () {
         const { height } = this.props;
