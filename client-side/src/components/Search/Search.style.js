@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
 	topSafe: {
@@ -27,7 +27,7 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 	},
 	searchTextSpec: {
-		fontSize: 23,
+		fontSize: Platform.OS === 'ios' ? 30 : 23,
 	},
 	clearSpec: {
 		marginLeft: -5,
