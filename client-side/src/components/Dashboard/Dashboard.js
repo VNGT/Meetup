@@ -41,7 +41,6 @@ class Dashboard extends Component {
         AsyncStorage.setItem("account", JSON.stringify(account));
         const { events } = account;
         console.log('ACCOUNT INFO: ', account);
-        console.log('Collecting data');
 
         // Reset event list
         this.setState({events: []}, _ => {
@@ -49,12 +48,13 @@ class Dashboard extends Component {
                 events.forEach(e => {
                     Https.GET(`event/${e}`)
                     .then(res => res.data.data)
-                    .then(data => this.setState({events: this.state.events.concat([data])}));
+                    .then(data => this.setState({events: this.state.events.concat([data])}, _ => {
+                        this.setState({loading: false});
+                    }));
                 });
             }
-            this.setState({loading: false})
         });
-        this.props.navigation.addListener('willFocus', this.collectingEventData)
+        // this.props.navigation.addListener('willFocus', this.collectingEventData);
     };
 
     routeToEventDetail = (event) => {
