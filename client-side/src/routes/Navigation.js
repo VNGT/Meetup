@@ -11,25 +11,6 @@ import Search from '../components/Search';
 import Profile from '../components/Profile';
 import SearchDetail from '../components/SearchDetail';
 import EventDetail from '../components/EventDetail';
-import { fromRight, fadeIn } from 'react-navigation-transitions';
-
-// const handleCustomTransition = ({ scenes }) => {
-// 	const prevScene = scenes[scenes.length - 2];
-// 	const nextScene = scenes[scenes.length - 1];
-
-// 	// Custom transitions go there
-// 	if (prevScene
-// 		&& prevScene.route.routeName === 'DashboardPage'
-// 		&& nextScene.route.routeName === 'SearchPage') {
-// 		return fadeIn();
-// 	} else if (prevScene
-// 		&& prevScene.route.routeName === 'SearchPage'
-// 		&& nextScene.route.routeName === 'DashboardPage') {
-// 		return fadeIn();
-// 	}
-// 	return fadeIn();
-// };
-
 
 const RootStack = createStackNavigator(
 	{
@@ -47,7 +28,6 @@ const RootStack = createStackNavigator(
 	},
 	{
 		initialRouteName: 'WelcomePage',
-		// transitionConfig: (nav) => handleCustomTransition(nav)
 	}
 );
 

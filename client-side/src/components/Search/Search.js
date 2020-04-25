@@ -8,6 +8,7 @@ import { GET, POST, PUT } from '../../services/Https';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ActivityIndicator } from 'react-native-paper';
 Icon.loadFont();
+import DimissKeyboard from '../../directives/DimissKeyboard';
 
 class Search extends Component {
 	static navigationOptions = {
@@ -31,33 +32,43 @@ class Search extends Component {
 		this.setState({account: JSON.parse(await AsyncStorage.getItem("account"))});
 	}
 
-	Title = () => <Text style={styles.title}>Search</Text>;
+	Title = () => (
+		<DimissKeyboard>
+			<Text style={styles.title}>Search</Text>
+		</DimissKeyboard>
+	);
 
-	RecentSearch = () => <Text style={styles.recentSearch}>Recent Searches</Text>;
+	RecentSearch = () => (
+		<DimissKeyboard>
+			<Text style={styles.recentSearch}>Recent Searches</Text>
+		</DimissKeyboard>
+	);
 
 	SearchField = () => (
-		<View style={styles.searchField}>
-			<View style={styles.colSizeSm}>
-				<Icon style={styles.searchTextSpec} name="search" />
+		<DimissKeyboard>
+			<View style={styles.searchField}>
+				<View style={styles.colSizeSm}>
+					<Icon style={styles.searchTextSpec} name="search" />
+				</View>
+				<View style={styles.colSizeLg}>
+					<TextInput
+						ref={this.searchInput}
+						style={styles.searchTextSpec}
+						placeholder='Search'
+						onChangeText={text => this.searchBoxWhenClick(text)}
+					/>
+				</View>
+				<this.ClearSearchBarIcon />
+				<TouchableOpacity style={{alignSelf: 'center'}} disabled={!this.state.allowToSearch} onPress={this.searchQueryLogic}>
+					<Text style={{
+						color: this.state.allowToSearch ? 'blue' : '#c3c3c3',
+						fontSize: 18
+					}}>
+						Search
+					</Text>
+				</TouchableOpacity>
 			</View>
-			<View style={styles.colSizeLg}>
-				<TextInput
-					ref={this.searchInput}
-					style={styles.searchTextSpec}
-					placeholder='Search'
-					onChangeText={text => this.searchBoxWhenClick(text)}
-				/>
-			</View>
-			<this.ClearSearchBarIcon />
-			<TouchableOpacity style={{alignSelf: 'center'}} disabled={!this.state.allowToSearch} onPress={this.searchQueryLogic}>
-				<Text style={{
-					color: this.state.allowToSearch ? 'blue' : '#c3c3c3',
-					fontSize: 18
-				}}>
-					Search
-				</Text>
-			</TouchableOpacity>
-		</View>
+		</DimissKeyboard>
 	);
 
 	ClearSearchBarIcon = () => {
@@ -129,12 +140,6 @@ class Search extends Component {
 		let eventList = [];
         if (events.length > 0) {
             events.forEach((event, index) => {
-				// const WhichViewToDisplay = () => {
-				// 	if (!loading && events.length === 0 && !refreshing) {
-				// 		return (<Text style={styles.noDataText}>No event found</Text>);
-				// 	}
-				// 	return this.EventDetailView(this.state.searchResults)
-				// };
 				const EventButton = () => {
 					if (account["events"].includes(event.id)) {
 						return (
@@ -181,7 +186,7 @@ class Search extends Component {
 	addEvent = async (event) => {
 		const account = JSON.parse(await AsyncStorage.getItem("account"));
 		account["events"].push(event["id"]);
-		var response = await POST("account/addEvent", account);
+		await POST("account/addEvent", account);
 		this.setState({account: account})
 		await AsyncStorage.setItem("account", JSON.stringify(account));
 	};
@@ -197,7 +202,6 @@ class Search extends Component {
     DisplaySearchResult = () => {
 		const { loading } = this.state;
 		const events = this.state.searchResults;
-		// const [refreshing, setRefreshing] = useState(false);
 
 		const WhichViewToDisplay = () => {
             if (!loading && events.length === 0 && !refreshing) {
@@ -245,7 +249,7 @@ class Search extends Component {
 		const { searchResults } = this.state;
 		return (
 			<Fragment>
-				<SafeAreaView style={styles.topSafe} />
+				<SafeAreaView style={styles.topSafe}/>
 				<SafeAreaView style={styles.bottomSafe}>
 					<this.Title/>
 					<this.SearchField/>

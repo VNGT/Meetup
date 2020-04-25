@@ -5,6 +5,7 @@ import styles from './Signup.style.js';
 import MAGIC from '../../constants/en_US';
 import TopGreenRectangle from '../../directives/TopGreenRectangle';
 import CardWithField from '../../directives/CardWithField';
+import DimissKeyboard from '../../directives/DimissKeyboard';
 
 class Signup extends Component {
 
@@ -34,16 +35,18 @@ class Signup extends Component {
             <Fragment>
                 <SafeAreaView style={styles.safeAreaTop} />
                 <SafeAreaView style={styles.safeAreaBottom}>
-                    <View style={styles.loginView}>
-                        <TopGreenRectangle
-                            setHeight={260}
-                            setTitle={MAGIC.SIGN_UP.TITLE}
-                            setSub={MAGIC.SIGN_UP.SUBTITLE}
-                            showBackArrow={true}
-                        />
-                        <CardWithField setCard={3} />
-                        <this.haveAccountYet />
-                    </View>
+                    <DimissKeyboard>
+                        <View style={styles.loginView}>
+                            <TopGreenRectangle
+                                setHeight={260}
+                                setTitle={MAGIC.SIGN_UP.TITLE}
+                                setSub={MAGIC.SIGN_UP.SUBTITLE}
+                                showBackArrow={true}
+                            />
+                            <CardWithField setCard={3} />
+                            <this.haveAccountYet />
+                        </View>
+                    </DimissKeyboard>
                 </SafeAreaView>
             </Fragment>
         );

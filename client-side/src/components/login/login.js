@@ -5,7 +5,7 @@ import MAGIC from '../../constants/en_US';
 import styles from './Login.style.js';
 import TopGreenRectangle from '../../directives/TopGreenRectangle';
 import CardWithField from '../../directives/CardWithField';
-import ConnectServiceView from '../../directives/ConnectServiceView';
+import DimissKeyboard from '../../directives/DimissKeyboard';
 
 class Login extends Component {
 
@@ -36,16 +36,18 @@ class Login extends Component {
             <Fragment>
                 <SafeAreaView style={styles.safeAreaTop} />
                 <SafeAreaView style={styles.safeAreaBottom}>
-                    <View style={styles.loginView}>
-                        <TopGreenRectangle
-                            setHeight={290}
-                            setTitle={MAGIC.LOGIN.TITLE}
-                            setSub={MAGIC.LOGIN.SUBTITLE}
-                            showBackArrow={true}
-                        />
-                        <CardWithField setCard={2} />
-                        <this.haveAccountYet />
-                    </View>
+                    <DimissKeyboard>
+                        <View style={styles.loginView}>
+                            <TopGreenRectangle
+                                setHeight={290}
+                                setTitle={MAGIC.LOGIN.TITLE}
+                                setSub={MAGIC.LOGIN.SUBTITLE}
+                                showBackArrow={true}
+                            />
+                            <CardWithField setCard={2} />
+                            <this.haveAccountYet />
+                        </View>
+                    </DimissKeyboard>
                 </SafeAreaView>
             </Fragment>
         );
